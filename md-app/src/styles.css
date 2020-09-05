@@ -1,1 +1,58 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.content {
+    background: url('./assets/images/bg.png');
+    width: 100%;
+    height: 100%;
+}
+
+.btn-ok {
+    background-color: #007E3A;
+    color: white!important 
+}
+
+.btn-ok :hover {
+    background-color: #007E3A;
+    color: white;
+}
+
+.text-content {
+    color: #007E3A;
+}
+
+.band {
+    background-color: #007E3A; 
+    width: 100%;
+    height: 100px; 
+    margin-top: 15px;
+}
+
+.band-title {
+    color: white;
+    font-weight: bold;
+    font-size: 40px;
+    margin: 0 0 0 50px;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.doing-title {
+    margin: 15px 0 0 50px;
+    border-radius: 25px;
+}
+
+.doing-content {
+    max-width: 350px;
+    height: 100%;
+    background-color: white;
+}
+
+.body-content {
+    margin: 0 0 0 25px;
+    height: 100%;
+}
