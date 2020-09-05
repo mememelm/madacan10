@@ -3,6 +3,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.color {
+    color: #007E3A;
+}
+
 .content {
     background: url('./assets/images/bg.png');
     width: 100%;

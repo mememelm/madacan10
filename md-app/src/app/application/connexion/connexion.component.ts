@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 })
 export class ConnexionComponent implements OnInit {
 
+  hide = true
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {
