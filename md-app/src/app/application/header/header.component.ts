@@ -13,6 +13,10 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  formationRoute() {
+    this.router.navigateByUrl('formation')
+  }
+  
   logout() {
     sessionStorage.clear()
     this.router.navigateByUrl('connexion')

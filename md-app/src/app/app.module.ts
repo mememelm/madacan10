@@ -13,7 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { HomeComponent } from './application/home/home.component';
 import { ConnexionComponent } from './application/connexion/connexion.component';
@@ -24,6 +24,13 @@ import { LessonComponent } from './application/lesson/lesson.component';
 import { SupportComponent } from './application/modal/support/support.component';
 import { EvaluationComponent } from './application/modal/evaluation/evaluation.component';
 import { HeaderComponent } from './application/header/header.component';
+
+// import { VgCoreModule } from 'videogular2/compiled/core';
+// import { VgControlsModule } from 'videogular2/compiled/controls';
+// import { VgOverlayPlayModule } from 'videogular2/compiled/overlay-play';
+// import { VgBufferingModule } from 'videogular2/compiled/buffering';
+
+import { MatVideoModule } from 'mat-video';
 
 @NgModule({
   declarations: [
@@ -50,7 +57,12 @@ import { HeaderComponent } from './application/header/header.component';
     MatSelectModule,
     MatListModule,
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
+    // VgCoreModule,
+    // VgControlsModule,
+    // VgOverlayPlayModule,
+    // VgBufferingModule
+    MatVideoModule
   ],
   providers: [],
   bootstrap: [AppComponent],
