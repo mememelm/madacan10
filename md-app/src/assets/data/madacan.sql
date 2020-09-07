@@ -37,6 +37,13 @@ CREATE TABLE IF NOT EXISTS `exercise` (
   PRIMARY KEY (`exerciseId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+CREATE TABLE IF NOT EXISTS `answer` (
+  `answerId` int(15) NOT NULL AUTO_INCREMENT,
+  `answerContent` varchar(3000) NOT NULL,
+  `exerciseStatus` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`exerciseId`)
+) 
 -- --------------------------------------------------------
 
 --
@@ -108,6 +115,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `userBirth` date NOT NULL,
   `userEmploiment` varchar(30) NOT NULL,
   `userStatus` varchar(30) NOT NULL,
+  `userAccess` int(10) NOT NULL,
   PRIMARY KEY (`userImmatriculation`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 COMMIT;

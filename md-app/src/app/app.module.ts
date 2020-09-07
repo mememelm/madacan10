@@ -30,7 +30,7 @@ import { HeaderComponent } from './application/header/header.component';
 // import { VgOverlayPlayModule } from 'videogular2/compiled/overlay-play';
 // import { VgBufferingModule } from 'videogular2/compiled/buffering';
 
-import { MatVideoModule } from 'mat-video';
+// import { MatVideoModule } from 'mat-video';
 
 @NgModule({
   declarations: [
@@ -62,7 +62,7 @@ import { MatVideoModule } from 'mat-video';
     // VgControlsModule,
     // VgOverlayPlayModule,
     // VgBufferingModule
-    MatVideoModule
+    // MatVideoModule
   ],
   providers: [],
   bootstrap: [AppComponent],
