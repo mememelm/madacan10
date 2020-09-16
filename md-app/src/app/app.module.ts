@@ -15,7 +15,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 
-import { HomeComponent } from './application/home/home.component';
 import { ConnexionComponent } from './application/connexion/connexion.component';
 import { DoingComponent } from './application/doing/doing.component';
 import { ExerciseComponent } from './application/exercise/exercise.component';
@@ -35,7 +34,6 @@ import { HeaderComponent } from './application/header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     ConnexionComponent,
     DoingComponent,
     ExerciseComponent,
