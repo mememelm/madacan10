@@ -3,26 +3,32 @@
         <div class="wrap-login100">
             <form class="login100-form validate-form">
                 <span class="login100-form-title p-b-43">
-                    Login to continue
+                    Connectez-vous
                 </span>
 
-
                 <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                    <input class="input100" type="text" name="email">
+                    <input class="input100" type="email" name="email" placeholder="E-mail" [(ngModel)]="email">
                     <span class="focus-input100"></span>
-                    <span class="label-input100"><mat-icon>person</mat-icon> Username</span>
+                    <span class="label-input100">
+                        <mat-icon class="icon-input">
+                            person
+                        </mat-icon>
+                    </span>
                 </div>
 
-
                 <div class="wrap-input100 validate-input" data-validate="Password is required">
-                    <input class="input100" type="password" name="pass">
+                    <input class="input100" [(ngModel)]="password" type="password" name="password" placeholder="Mot de passe">
                     <span class="focus-input100"></span>
-                    <span class="label-input100"><mat-icon>lock</mat-icon> Password</span>
+                    <span class="label-input100">
+                        <mat-icon class="icon-input">
+                            lock
+                        </mat-icon>
+                    </span>
                 </div>
 
                 <div class="container-login100-form-btn" style="margin-top: 50px;">
                     <button class="login100-form-btn" (click)="connexion()">
-                        Login
+                        connexion
                     </button>
                 </div>
             </form>

@@ -110,6 +110,13 @@
   textarea:focus, input:focus {
     border-color: transparent !important;
   }
+
+  .icon-input {
+    margin-left: -2px; 
+    margin-right: 15px; 
+    float: right; 
+    margin-top: -10px;
+  }
   
   input:focus::-webkit-input-placeholder { color:transparent; }
   input:focus:-moz-placeholder { color:transparent; }
