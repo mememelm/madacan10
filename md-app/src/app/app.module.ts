@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,9 +21,15 @@ import { DoingComponent } from './application/doing/doing.component';
 import { ExerciseComponent } from './application/exercise/exercise.component';
 import { FormationComponent } from './application/formation/formation.component';
 import { LessonComponent } from './application/lesson/lesson.component';
-import { SupportComponent } from './application/modal/support/support.component';
-import { EvaluationComponent } from './application/modal/evaluation/evaluation.component';
+
+// services
+import { ApiService } from "./services/api/api.service";
+import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './application/header/header.component';
+import { ModuleComponent } from './application/module/module.component';
+import { QuestionComponent } from './application/question/question.component';
+import { AnswerComponent } from './application/answer/answer.component';
+import { EvaluationComponent } from './application/evaluation/evaluation.component';
 
 // import { VgCoreModule } from 'videogular2/compiled/core';
 // import { VgControlsModule } from 'videogular2/compiled/controls';
@@ -39,9 +46,11 @@ import { HeaderComponent } from './application/header/header.component';
     ExerciseComponent,
     FormationComponent,
     LessonComponent,
-    SupportComponent,
-    EvaluationComponent,
-    HeaderComponent
+    HeaderComponent,
+    ModuleComponent,
+    QuestionComponent,
+    AnswerComponent,
+    EvaluationComponent  
   ],
   imports: [
     BrowserModule,
@@ -56,13 +65,15 @@ import { HeaderComponent } from './application/header/header.component';
     MatListModule,
     MatExpansionModule,
     MatDialogModule,
+    HttpClientModule,
+    FormsModule
     // VgCoreModule,
     // VgControlsModule,
     // VgOverlayPlayModule,
     // VgBufferingModule
     // MatVideoModule
   ],
-  providers: [],
+  providers: [ApiService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

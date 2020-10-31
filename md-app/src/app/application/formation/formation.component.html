@@ -1,55 +1,40 @@
-<div class="content">
-    <mat-toolbar class="mat-elevation-z8 animate__animated animate__fadeInDown" style="background-color: white;">
-        <div class="col-sm-4">
-            <img src="../../../assets/images/madacan.PNG">
-        </div>
-        <div class="col-sm-4" style="text-align: center;">
-            <span>Mr RAKOTO</span>
-        </div>
-        <div class="col-sm-4">
-            <span style="float: right;" class="color" (click)="logout()">
-                <mat-icon>logout</mat-icon> Déconnexion
-            </span>
-        </div>
-    </mat-toolbar>
+<app-header></app-header>
 
-    <div class="band animate__animated animate__fadeInLeft mat-elevation-z8">
-        <mat-label class="band-title">FORMATION : LIPSUM</mat-label>
+<!-- Menu  -->
+<div class="row">
+    <div class="col-md-6 d-flex justify-content-center">
+        <div class="menu-content">
+            <button mat-fab color="white" class="menu-div" (click)="lessonRoute()">
+                <mat-icon class="color">edit</mat-icon>
+            </button>
+            <span class="menu-band">Cours</span>
+        </div>
     </div>
+    <div class="col-md-6 d-flex justify-content-center">
+        <div class="menu-content" (click)="exerciseRoute()">
+            <button mat-fab color="white" class="menu-div">
+                <mat-icon class="color">work</mat-icon>
+            </button>
+            <span class="menu-band">Exercice</span>
+        </div>
+    </div>
+</div>
 
-    <!-- Menu  -->
-    <div>
-        <div class="d-flex justify-content-center animate__animated animate__fadeInLeft" style="margin-top: 50px;">
-            <div class="menu-content mat-elevation-z8">
-                <button mat-fab color="white" class="menu-div" (click)="lessonRoute()">
-                    <mat-icon class="color">edit</mat-icon>
-                </button>
-                <span class="menu-band">Cours</span>
-            </div>
+<div class="row">
+    <div class="col-md-6 d-flex justify-content-center">
+        <div class="menu-content">
+            <button mat-fab color="white" class="menu-div">
+                <mat-icon class="color">exposure</mat-icon>
+            </button>
+            <span class="menu-band">Passer au test</span>
         </div>
-        <div class="d-flex justify-content-center animate__animated animate__fadeInRight">
-            <div class="menu-content mat-elevation-z8" style="margin-top: 15px;" (click)="exerciseRoute()">
-                <button mat-fab color="white" class="menu-div">
-                    <mat-icon class="color">work</mat-icon>
-                </button>
-                <span class="menu-band">Exercice</span>
-            </div>
-        </div>
-        <div class="d-flex justify-content-center animate__animated animate__fadeInLeft" style="margin-top: 15px;">
-            <div class="menu-content mat-elevation-z8">
-                <button mat-fab color="white" class="menu-div">
-                    <mat-icon class="color">exposure</mat-icon>
-                </button>
-                <span class="menu-band">Passer au test</span>
-            </div>
-        </div>
-        <div class="d-flex justify-content-center animate__animated animate__fadeInRight" style="margin-top: 15px;">
-            <div class="menu-content mat-elevation-z8">
-                <button mat-fab color="white" class="menu-div">
-                    <mat-icon class="color">timeline</mat-icon>
-                </button>
-                <span class="menu-band">Evaluation</span>
-            </div>
+    </div>
+    <div class="col-md-6 d-flex justify-content-center">
+        <div class="menu-content mat-elevation-z">
+            <button mat-fab color="white" class="menu-div">
+                <mat-icon class="color">timeline</mat-icon>
+            </button>
+            <span class="menu-band">Evaluation</span>
         </div>
     </div>
 </div>

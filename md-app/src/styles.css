@@ -7,11 +7,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: #007E3A;
 }
 
-.content {
+/* .content {
     background: url('./assets/images/bg.png');
     width: 100%;
     height: 100%;
-}
+} */
 
 .btn-ok {
     background-color: #007E3A;
