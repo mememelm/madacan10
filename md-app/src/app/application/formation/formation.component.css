@@ -1,24 +1,5 @@
-.menu-band {
-    color: #007E3A;
-    font-weight: bold;
-    font-size: 20px;
-    margin: 0 0 0 15px;
-}
-
-.menu-band :hover{
-    margin-left: 15px;
-}
-
-.menu-content {
-    width: 300px;
-    background-color: white;
-    border-radius: 15px;
-}
-
-.menu-div {
-    margin: 10px 10px 10px 10px; 
-}
-
-.menu-div :hover {
-    color: #E63221
+.abs-center-x {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from "../../services/api/api.service";
-import { of } from 'rxjs'
+import { UserService } from "../../services/";
 
 @Component({
   selector: 'app-connexion',
@@ -14,13 +13,13 @@ export class ConnexionComponent implements OnInit {
   public password: any
 
   constructor(
-    private router: Router,
-    private apiService: ApiService) { }
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
   }
 
   public connexion() {
-    this.apiService.postDataWithFormData('login_check', this.email, this.password)
+    this.userService.postDataWithFormData('login_check', this.email, this.password)
   }
 }

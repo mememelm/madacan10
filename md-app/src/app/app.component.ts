@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LocationStrategy } from '@angular/common';
+import { AutoLogoutService } from "./services";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,10 @@ import { LocationStrategy } from '@angular/common';
 export class AppComponent {
   title = 'md-app';
 
-  constructor(private locationStrategy: LocationStrategy) {
+  constructor(
+    private locationStrategy: LocationStrategy,
+    public autoLogoutService: AutoLogoutService
+  ) {
     this.locationStrategy.onPopState(() => {
       history.pushState(null, null, window.location.href)
     });

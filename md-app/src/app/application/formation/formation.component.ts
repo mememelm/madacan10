@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from "../../services/api/api.service";
+import { FormationService } from '../../services/formation.service';
 
 @Component({
   selector: 'app-formation',
@@ -9,35 +9,44 @@ import { ApiService } from "../../services/api/api.service";
 })
 export class FormationComponent implements OnInit {
 
-  userId : any
+  public userId: any
+  public formation: any = []
+  public firstnane: any
+  public lastname: any
 
   constructor(
     private router: Router,
-    private apiService: ApiService
+    private formationService: FormationService
   ) { }
 
   ngOnInit(): void {
-    let user = JSON.parse(localStorage.getItem('currentUser')) 
-    this.userId = user.userId
+    
+    this.formation = localStorage.getItem('currentFormation')
+
+    this.userId = localStorage.getItem('userId')
     console.log('===> id', this.userId)
+
     let body = {
-      id: this.userId
+      userId: this.userId
     }
-    setTimeout(() => {
-      this.apiService.postDataWithToken(body, 'formations/get').subscribe(res => console.log(res))
-    },1000)   
+    this.formationService.getFormationByUser(body)
+      .subscribe(async (res: any) => {
+        console.log(res)
+        for (let i=0; i<res.data.length; i++) {
+          this.formation = res.data[i].name
+        }        
+        await this.formation
+        console.log('formations', this.formation)
+        localStorage.setItem('currentFormation', this.formation)
+      })
+
+    let user = JSON.parse(localStorage.getItem('currentUser'))
+    this.firstnane = user.firstname
+    this.lastname = user.lastname
   }
 
-  exerciseRoute() {
-    this.router.navigateByUrl('exercise')
-  }
-
-  lessonRoute() {
-    this.router.navigateByUrl('lesson')
-  }
-
-  logout() {
-    sessionStorage.clear()
-    this.router.navigateByUrl('connexion')
+  public logout() {
+    this.router.navigateByUrl('')
+    localStorage.clear()
   }
 }
