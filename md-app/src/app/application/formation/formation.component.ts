@@ -45,8 +45,13 @@ export class FormationComponent implements OnInit {
     this.lastname = user.lastname
   }
 
+  // ROUTE
   public logout() {
     this.router.navigateByUrl('')
     localStorage.clear()
+  }
+
+  public toFormation() {
+    this.router.navigateByUrl('home')
   }
 }
