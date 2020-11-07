@@ -15,6 +15,7 @@ import { ConnexionComponent } from './application/connexion/connexion.component'
 import { EvaluationComponent } from './application/evaluation/evaluation.component';
 import { HomeComponent } from './application/home/home.component';
 import { FormationComponent } from "./application/formation/formation.component";
+import { CourseComponent } from './application/course/course.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { FormationComponent } from "./application/formation/formation.component"
     ConnexionComponent,
     EvaluationComponent,
     HomeComponent,
-    FormationComponent
+    FormationComponent,
+    CourseComponent
   ],
   imports: [
     BrowserModule,
