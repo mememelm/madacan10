@@ -1,39 +1,27 @@
-<div class="limiter">
-    <div class="container-login100">
-        <div class="wrap-login100">
-            <form class="login100-form validate-form">
-                <span class="login100-form-title p-b-43">
-                    Connectez-vous
-                </span>
-
-                <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                    <input class="input100" type="email" name="email" placeholder="E-mail" [(ngModel)]="email">
-                    <span class="focus-input100"></span>
-                    <span class="label-input100">
-                        <i class="fas fa-user"
-                            style="margin-left: -2px;font-size: medium;margin-right: 15px; float: right; margin-top: -10px"></i>
-                    </span>
-                </div>
-
-                <div class="wrap-input100 validate-input" data-validate="Password is required">
-                    <input class="input100" [(ngModel)]="password" type="password" name="password"
-                        placeholder="Mot de passe">
-                    <span class="focus-input100"></span>
-                    <span class="label-input100">
-                        <i class="fas fa-key"
-                            style="margin-left: -2px;font-size: medium;margin-right: 15px; float: right; margin-top: -10px"></i>
-                    </span>
-                </div>
-
-                <div class="container-login100-form-btn" style="margin-top: 50px;">
-                    <button class="login100-form-btn" (click)="connexion()">
-                        connexion
-                    </button>
-                </div>
-            </form>
-
-            <div class="login100-more" style="background-image: url('../../../assets/images/Logo_Madacan.png');">
-            </div>
+<div class="left">
+    <div class="text-center logo">
+        <a href="#"><img src="../../../assets/images/logo.png"></a>
+    </div>
+    <form>
+        <div class="form-group">
+            <input type="email" class="form-control" placeholder="Identifiant" [(ngModel)]="email"
+                [ngModelOptions]="{standalone: true}">
+            <i class="material-icons">person</i>
         </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="Mot de passe" [(ngModel)]="password"
+                [ngModelOptions]="{standalone: true}">
+            <i class="material-icons">lock</i>
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="connexion()">Se connecter</button>
+    </form>
+    <p class="text-center copyright">
+        © Copyright 2020 Madacan
+</div>
+
+<div class="right">
+    <div class="text-right">
+        <h1>FORMATION MADACAN</h1>
+        <p></p>
     </div>
 </div>

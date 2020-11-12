@@ -1,1 +1,93 @@
-<app-formation></app-formation>
+<div class="text-center logo">
+    <a (click)="toHome()"><img src="../../../assets/images/logo.png"></a>
+</div>
+<div class="container cours">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>FORMATION | {{formation}}</h1>
+        </div>
+        <div class="col-sm-4 nav-left">
+            <p (click)="toHome()"><i class="material-icons">arrow_back</i> Retour à la page d'accueil</p>
+            <ul *ngFor="let item of listModules">
+                <li><a>{{item.name}}</a></li>
+            </ul>
+        </div>
+
+        <!-- COURS Right -->
+        <div class="col-sm-8">
+            <h3><i class="material-icons">chevron_right</i> COURS : Nom du module concerné</h3>
+            <ul class="text-center download-list">
+                <li>
+                    <a href="#">
+                        <div class="cont-img">
+                            <img src="../../../assets/images/img.jpg">
+                            <div class="cont-ico"><i class="material-icons">download</i></div>
+                        </div>
+                        <div class="cont-txt">
+                            <h4>Lorem ipsum dolor sit amet</h4>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="cont-img">
+                            <img src="../../../assets/images/img.jpg">
+                            <div class="cont-ico"><i class="material-icons">download</i></div>
+                        </div>
+                        <div class="cont-txt">
+                            <h4>Lorem ipsum dolor sit amet</h4>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="cont-img">
+                            <img src="../../../assets/images/img.jpg">
+                            <div class="cont-ico"><i class="material-icons">play_circle_filled</i></div>
+                        </div>
+                        <div class="cont-txt">
+                            <h4>Lorem ipsum dolor sit amet</h4>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="cont-img">
+                            <img src="../../../assets/images/img.jpg">
+                            <div class="cont-ico"><i class="material-icons">play_circle_filled</i></div>
+                        </div>
+                        <div class="cont-txt">
+                            <h4>Lorem ipsum dolor sit amet</h4>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="cont-img">
+                            <img src="../../../assets/images/img.jpg">
+                            <div class="cont-ico"><i class="material-icons">download</i></div>
+                        </div>
+                        <div class="cont-txt">
+                            <h4>Lorem ipsum dolor sit amet</h4>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="cont-img">
+                            <img src="../../../assets/images/img.jpg">
+                            <div class="cont-ico"><i class="material-icons">download</i></div>
+                        </div>
+                        <div class="cont-txt">
+                            <h4>Lorem ipsum dolor sit amet</h4>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<p class="text-center copyright">
+    © Copyright 2020 Madacan
+</p>

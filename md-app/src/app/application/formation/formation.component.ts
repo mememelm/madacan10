@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormationService } from '../../services/formation.service';
+import { ModuleService } from '../../services/module.service';
 
 @Component({
   selector: 'app-formation',
@@ -9,40 +9,37 @@ import { FormationService } from '../../services/formation.service';
 })
 export class FormationComponent implements OnInit {
 
-  public userId: any
-  public formation: any = []
-  public firstnane: any
-  public lastname: any
+  public formation: any
+  public listModules: any = []
+
+  public emitModule:EventEmitter<any> = new EventEmitter
+
+  public moduleId: any
 
   constructor(
     private router: Router,
-    private formationService: FormationService
+    private moduleService: ModuleService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
+    this.formation = localStorage.getItem('currentFormation')  
     
-    this.formation = localStorage.getItem('currentFormation')
-
-    this.userId = localStorage.getItem('userId')
-    console.log('===> id', this.userId)
-
     let body = {
-      userId: this.userId
+      formationId: localStorage.getItem('formationId')
     }
-    this.formationService.getFormationByUser(body)
-      .subscribe(async (res: any) => {
-        console.log(res)
-        for (let i=0; i<res.data.length; i++) {
-          this.formation = res.data[i].name
-        }        
-        await this.formation
-        console.log('formations', this.formation)
-        localStorage.setItem('currentFormation', this.formation)
-      })
 
-    let user = JSON.parse(localStorage.getItem('currentUser'))
-    this.firstnane = user.firstname
-    this.lastname = user.lastname
+    this.moduleService.getModuleByFormation(body)
+      .subscribe((res:any) => {
+        this.listModules = res.data
+        console.log('listModules', this.listModules)
+      })
+  }
+
+  // emit idModule for content
+  public emitDataModule(moduleId) {
+    this.emitModule.emit(moduleId)
+    this.moduleId = moduleId
+    console.log('moduleId', this.moduleId)
   }
 
   // ROUTE
@@ -51,7 +48,7 @@ export class FormationComponent implements OnInit {
     localStorage.clear()
   }
 
-  public toFormation() {
+  public toHome() {
     this.router.navigateByUrl('home')
   }
 }

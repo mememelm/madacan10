@@ -1,21 +1,57 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-success">
-    <a (click)="toFormation()" class="cursor-pt"><img src="../../../assets/images/madacan.PNG"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar6">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-collapse collapse justify-content-stretch" id="navbar6">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link">Formation : <b>{{formation | titlecase}}</b></a>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link">{{firstnane | titlecase}} {{lastname | titlecase}}</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link cursor-pt" (click)="logout()"><i class="fas fa-sign-out-alt"></i></a>
-            </li>
-        </ul>
+<div class="text-center logo">
+    <a (click)="toHome()"><img src="../../../assets/images/logo.png"></a>
+</div>
+<div class="container cours">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>FORMATION | {{formation}}</h1>
+        </div>
+        <div class="col-sm-4 nav-left">
+            <p (click)="toHome()"><i class="material-icons">arrow_back</i> Retour à la page d'accueil</p>
+            <ul *ngFor="let item of listModules">
+                <li (click)="emitDataModule(item.id)"><a>{{item.name}}</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-8">
+            <h3><i class="material-icons">chevron_right</i> EXERCICE : Switch module name</h3>
+            <h5>Question n°1 : Quel est ton nom de famille ?</h5>
+            <form>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                        value="option2">
+                    <label class="form-check-label" for="exampleRadios1">
+                        Première reponse du qcm
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                        value="option2">
+                    <label class="form-check-label" for="exampleRadios2">
+                        Deuxième reponse du qcm
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                        value="option2">
+                    <label class="form-check-label" for="exampleRadios3">
+                        Troisième reponse du qcm
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4"
+                        value="option2">
+                    <label class="form-check-label" for="exampleRadios4">
+                        Quatrième
+                    </label>
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary"><i class="material-icons">chevron_right</i></button>
+                </div>
+            </form>
+
+        </div>
     </div>
-</nav>
+</div>
+<p class="text-center copyright">
+    © Copyright 2020 Madacan
+</p>

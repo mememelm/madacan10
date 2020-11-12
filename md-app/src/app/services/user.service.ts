@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { environment } from '../../environments/environment'
 import { Router } from "@angular/router";
 
@@ -13,15 +13,16 @@ export class UserService {
 
   constructor(
     private httpClient: HttpClient,
-    public router: Router
+    private router: Router
   ) { }
 
   // POST FORM DATA 
-  postDataWithFormData(file, email, password) {
+  public postDataWithFormData(file, email, password) {
+
     const formData = new FormData()
     formData.append('email', email)
     formData.append('password', password)
-    console.log(formData)
+
     this.httpClient.post<any>(this.api + file, formData)
       .subscribe((res) => {
         if (res) {

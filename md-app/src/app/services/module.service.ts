@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Formation } from "../constant/formation";
+import { Module } from "../constant/module";
 import { environment } from '../../environments/environment'
 import { retry, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
@@ -8,7 +8,7 @@ import { Observable, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class FormationService {
+export class ModuleService {
 
   public api = environment.urlApi
 
@@ -23,10 +23,10 @@ export class FormationService {
   }
 
   // GET Formation user
-  public getFormationByUser(data): Observable<Formation> {
+  public getModuleByFormation(data): Observable<Module> {
     return this.httpClient
-      .post<Formation>(
-        this.api + 'formations/get',
+      .post<Module>(
+        this.api + 'modules/get',
         JSON.stringify(data),
         this.httpOptions
       )

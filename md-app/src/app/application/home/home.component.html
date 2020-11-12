@@ -1,57 +1,12 @@
-<app-formation></app-formation>
-
-<div class="row mt-5 d-flex justify-content-center">
-    <div class="col-md-3 cursor-pt" (click)="toCourse()">
-        <div class="card">
-            <div class="image">
-                <img src="../../../assets/images/img-app/exam.png" />
-            </div>
-            <div class="card-inner">
-                <div class="header">
-                    <h2>Cours</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 cursor-pt">
-        <div class="card">
-            <div class="image">
-                <img src="../../../assets/images/img-app/exam.png" />
-            </div>
-            <div class="card-inner">
-                <div class="header">
-                    <h2>Exercices</h2>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="text-center logo">
+    <a href="#"><img src="../../../assets/images/logo.png"></a>
 </div>
-
-<div class="row d-flex justify-content-center">
-    <div class="col-md-3 cursor-pt">
-        <div class="card">
-            <div class="image">
-                <img src="../../../assets/images/img-app/exam.png" />
-            </div>
-            <div class="card-inner">
-                <div class="header">
-                    <h2>Examen</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 cursor-pt">
-        <div class="card">
-            <div class="image">
-                <img src="../../../assets/images/img-app/exam.png" />
-            </div>
-            <div class="card-inner">
-                <div class="header">
-                    <h2>Evaluation</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<ul class="text-center nav-list">
+    <li><a><i class="material-icons" (click)="toCourse()">import_contacts</i>Cours</a></li>
+    <li><a><i class="material-icons" (click)="toFormation()">edit</i>Exercice</a></li>
+    <li><a><i class="material-icons" (click)="toFormation()">playlist_add_check</i>Passer au test</a></li>
+    <li><a href="#"><i class="material-icons">timeline</i>Evaluation</a></li>
+</ul>
+<p class="text-center copyright">
+    © Copyright 2020 Madacan
+</p>

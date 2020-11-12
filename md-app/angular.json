@@ -26,12 +26,13 @@
             "styles": [
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.css", 
+              "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/animate.css/animate.min.css"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/jquery/dist/jquery.js",
               "node_modules/@fortawesome/fontawesome-free/js/all.js"
             ]
           },
@@ -128,5 +129,8 @@
       }
     }
   },
-  "defaultProject": "md-app"
+  "defaultProject": "md-app",
+  "cli": {
+    "analytics": "0291aabc-cb43-4dcb-9ee9-1f0c0008dd41"
+  }
 }

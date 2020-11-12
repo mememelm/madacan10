@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { UserService } from "../../services/";
 
 @Component({
@@ -17,6 +16,7 @@ export class ConnexionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear()
   }
 
   public connexion() {

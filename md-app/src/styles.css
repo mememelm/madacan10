@@ -1,8 +1,70 @@
 /* You can add global styles to this file, and also import other style files */
+@charset "utf-8";
+/* CSS Document */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-.cursor-pt {
-    cursor: pointer;
+html {position:relative;height:100%;}
+body {position:relative;height:100%;font-family: 'Poppins', sans-serif;font-size:12px;}
+.btn.btn-primary {background:#E63221;box-shadow:0 3px 8px rgba(0,0,0,0.32);border-radius:0;border:none;transition:0.25s; }
+.btn.btn-primary:hover {background:#007B3C;}
+.copyright {padding:35px 0 0;}
+.left {position:absolute;left:0;width:514px;bottom:0;top:0;padding:40px 0 0;}
+.left form {padding:0 15%;}
+.left form .form-group {position:relative;}
+.left form .material-icons {position:absolute;color:#E63221;right:10px; top:5px;}
+.left form .form-control {border:none;box-shadow:0 3px 8px rgba(0,0,0,0.16);border-radius:0;border-bottom:#fff 4px solid;transition:0.25s;position:relative;}
+.left form .form-control:focus {border-bottom:#007B3C 4px solid;}
+.left .copyright {position:absolute;bottom:25px;left:0; right:0;}
+.left .btn.btn-primary {width:100%;padding:10px 0;}
+
+.right {position:absolute;right:0;width:calc(100% - 514px);bottom:0;top:0;background:#000 url(./assets/images/right.jpg) center top no-repeat;background-size:100%;color:#fff;}
+.right .text-right {position:absolute;bottom:20%;left:10%;right:0;border-right:10px #007B3C solid; padding:30px;} 
+.right .text-right h1 {font-size:23px;font-weight:bold;} 
+
+.nav-list {padding:0 0 25px;border-bottom:#E63221 10px solid;max-width:1123px; margin:0 auto 40px;}
+.nav-list li {display:inline-block;padding:0 15px;}
+.nav-list li a {transition:0.25s;display:block;color:#fff;width:248px;height:246px;background:url(./assets/images/li.png) center top no-repeat;font-size:22px;font-weight:bold; padding-top:20px;box-shadow:10px 10px #E9E9E9;}
+.nav-list li a:hover {background:url(./assets/images/li.png) center -246px no-repeat;text-decoration:none;}
+.nav-list li a .material-icons {display:block;font-size:160px;}
+
+.cours h1 {font-size:16px;font-weight:bold;color:#fff;background:#000;box-shadow:0 3px 8px rgba(0,0,0,0.16);padding:10px 25px;}
+.cours .col-sm-12 {padding:0;margin:0 0 12px;}
+.cours .nav-left {font-size:16px;color:#fff;background:#007B3C;box-shadow:0 3px 8px rgba(0,0,0,0.16);padding:10px 0;}
+.cours .nav-left p {font-size:15px;border-bottom:1px solid #fff;font-weight:400; padding:5px 25px 15px;}
+.cours .nav-left p .material-icons {position:relative;top:3px;font-size:16px;margin-right: 6px;}
+.cours .nav-left a {color:#fff;}
+.cours .nav-left ul {padding:0;}
+.cours .nav-left ul li {display:block;}
+.cours .nav-left ul li a {display:block;padding:7px 25px;transition:0.25s;border-left:10px solid #007B3C;}
+.cours .nav-left ul li a:hover, .cours .nav-left ul li.active a {text-decoration:none;background:#007137;border-left:10px solid #003A1C;}
+.cours h3 {font-size:22px; font-weight:400;}
+.cours h3 .material-icons {color:#007B3C;position:relative;top:4px;margin:7px 0 17px;}
+.cours .col-sm-8 form {padding:0 0 0 50px;}
+.cours .col-sm-8 form .form-check {padding:0 0 20px 0;}
+.cours .col-sm-8 form .btn.btn-primary  {border-radius:100px;width:67px;height:67px;}
+.cours .col-sm-8 form .btn.btn-primary .material-icons {font-size:80px;position:relative;top:-12px; right:15px;}
+
+
+.download-list {padding:0;}
+.download-list li {display:inline-block; width:31%; margin:0 1% 10px;}
+.download-list li a {display:block;box-shadow:0 3px 6px rgba(0,0,0,0.16);background:#F5F5F5;transition:0.25s;}
+.download-list li a:hover {transform:scale(1.08,1.08);text-decoration:none;}
+.download-list li .cont-img {position:relative;}
+.download-list li .cont-img img {width:100%;}
+.download-list li .cont-img .cont-ico {position:absolute;left:0;right:0;top:22px;text-shadow:0 0 20px rgba(0,0,0,0.5);}
+.download-list li .cont-img .cont-ico .material-icons {font-size:90px; color:#fff;}
+.download-list li .cont-txt h4 {font-size:90px; color:#fff;color:#000000;font-size:12px; padding:17px 5px;}
+
+@media (max-width: 1199px) {
+
+}
+@media (max-width: 1199px) and (min-width: 992px) {
+
+}
+@media (max-width: 767px) {
+	.download-list li  {width:100%;}
+}
+@media (max-width: 575px) {
+
 }
