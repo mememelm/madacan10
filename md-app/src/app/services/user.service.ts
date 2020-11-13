@@ -17,13 +17,13 @@ export class UserService {
   ) { }
 
   // POST FORM DATA 
-  public postDataWithFormData(file, email, password) {
+  public postDataWithFormData(email, password) {
 
     const formData = new FormData()
     formData.append('email', email)
     formData.append('password', password)
 
-    this.httpClient.post<any>(this.api + file, formData)
+    this.httpClient.post<any>(this.api + 'login_check', formData)
       .subscribe((res) => {
         if (res) {
           console.log(res)

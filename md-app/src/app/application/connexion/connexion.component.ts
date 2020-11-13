@@ -20,6 +20,6 @@ export class ConnexionComponent implements OnInit {
   }
 
   public connexion() {
-    this.userService.postDataWithFormData('login_check', this.email, this.password)
+    this.userService.postDataWithFormData(this.email, this.password)
   }
 }
