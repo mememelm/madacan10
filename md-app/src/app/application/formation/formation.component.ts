@@ -19,6 +19,7 @@ export class FormationComponent implements OnInit, OnChanges {
   public moduleName: any
 
   public listQuestions: any = []
+  public stateAnswer: any
   public dtTiggers = new Subject()
 
   constructor(
@@ -69,6 +70,11 @@ export class FormationComponent implements OnInit, OnChanges {
     this.loadQuestion(this.moduleId)
     console.log('moduleId', [this.moduleId, this.moduleName])
   }
+
+  // public emitState(item: any) {
+  //   this.stateAnswer = this.emitModule.emit(item.state)    
+  //   console.log('state', this.stateAnswer)
+  // }
 
   // ROUTE
   public logout() {
