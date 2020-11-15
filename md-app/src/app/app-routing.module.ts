@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ConnexionComponent } from './application/connexion/connexion.component';
 import { EvaluationComponent } from './application/evaluation/evaluation.component';
-import { HomeComponent } from "./application/home/home.component";
+import { HomeComponent } from "./application/navigation-content/home/home.component";
 import { CourseComponent } from "./application/course/course.component";
 import { FormationComponent } from './application/formation/formation.component';
 

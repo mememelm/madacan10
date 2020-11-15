@@ -1,1 +1,13 @@
-<p>evaluation works!</p>
+<app-header></app-header>
+
+<div class="d-flex justify-content-center">
+    <p>VOUS AVEZ EU <b>{{totalPoint}} POINTS</b> => SOIT <b>{{pourcentPoint}} %</b> de réponses exactes à votre test</p>
+</div>
+
+<div class="text-success d-flex justify-content-center mt-5" *ngIf="resultSuccess == true">
+    <b>AFAKA ELAH</b>
+</div>
+
+<div class="text-danger d-flex justify-content-center mt-5" *ngIf="resultSuccess == false">
+    <b>DEDANS ELAH</b>
+</div>

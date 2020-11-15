@@ -13,9 +13,13 @@ import { TokenInterceptor } from './services';
 // cmp
 import { ConnexionComponent } from './application/connexion/connexion.component';
 import { EvaluationComponent } from './application/evaluation/evaluation.component';
-import { HomeComponent } from './application/home/home.component';
+import { HomeComponent } from './application/navigation-content/home/home.component';
 import { FormationComponent } from "./application/formation/formation.component";
 import { CourseComponent } from './application/course/course.component';
+import { MenuComponent } from './application/navigation-content/menu/menu.component';
+import { ModuleComponent } from './application/module/module.component';
+import { HeaderComponent } from './application/navigation-content/header/header.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -24,14 +28,18 @@ import { CourseComponent } from './application/course/course.component';
     EvaluationComponent,
     HomeComponent,
     FormationComponent,
-    CourseComponent
+    CourseComponent,
+    MenuComponent,
+    ModuleComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgxSpinnerModule
   ],
   providers: [
     {

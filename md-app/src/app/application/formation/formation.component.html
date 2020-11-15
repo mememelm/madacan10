@@ -1,61 +1,56 @@
-<div class="text-right top">
-    <ul>
-        <li>Bonjour <b>Koto</b> <img src="../../../assets/images/sary.jpg"></li>
-        <li><a>Se déconnecter <i class="material-icons">exit_to_app</i></a></li>
-    </ul>
-</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="#fff" type="ball-scale" [fullScreen]="true">
+    <p style="color: white"> Veuillez patienter... </p>
+</ngx-spinner>
 
-<div class="text-center logo">
-    <a (click)="toHome()"><img src="../../../assets/images/logo.png"></a>
-</div>
+<app-header></app-header>
+
 <div class="container cours">
     <div class="row">
         <div class="col-sm-12">
             <h1>FORMATION | {{formation}}</h1>
         </div>
+
+        <!-- CONTENT MODULE -->
         <div class="col-sm-4 nav-left">
-            <p (click)="toHome()"><i class="material-icons">arrow_back</i> Retour à la page d'accueil</p>
-
-            <!-- ETO LE LISTE MODULE IO  -->
-            
-            <ul *ngFor="let item of listModules">
-                <li (click)="emitDataModule(item)"><a>{{item.name}}</a></li>
-            </ul>
+            <app-module [listModules]="listModules" (emitModule)="emitDataModule($event)"></app-module>
         </div>
-        <div class="col-sm-8">
+
+        <div class="col-sm-8 text-center" *ngIf="formationContent == false">
+            <h3>Veuillez choisir votre module actuel</h3>
+        </div>
+
+        <div class="col-sm-8" *ngIf="formationContent == true">
             <h3><i class="material-icons">chevron_right</i> Module <b>{{moduleName}}</b></h3>
-
-            <!-- ETO LE  QUESTIONNAIRE -->
-
-            <div *ngFor="let item of listQuestions | slice: 0:1">
-                <h5>{{item.content }}</h5>
+            <!-- CONTENT QUESTIONNAIRE -->
+            <div *ngIf="alertQuestions == false">
+                <h5> Question n°{{indexQuestions+1}} : {{question}}</h5>
                 <form>
-                    <div class="form-check" *ngFor="let q of item.questions">
+                    <div class="form-check animate__animated animate__fadeInDown" *ngFor="let item of listAnswers">
                         <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
-                            value="option2" [(ngModel)]="stateAnswer">
+                            value="option2" [value]="item.id" (change)="onSelectionChange(item)">
                         <label class="form-check-label" for="exampleRadios1">
-                            {{q.content}}
+                            {{item.content}}
                         </label>
-                    </div> 
-                    
-                    <div class="form-check" >
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
-                            value="option2" [(ngModel)]="stateAnswer">
-                        <label class="form-check-label" for="exampleRadios1">
-                            ujai ihjfsnf lp jpoaj poajdpoajdpoja poaj japoj apj dpojapodapoj dpoajpdoaj poaj poajapojpo apao 
-                        </label>
-                    </div>  
+                    </div>
                 </form>
             </div>
+            <div *ngIf="alertQuestions == true">
+                <h3 class="col-sm-8 text-center">Ce module n'a pas de contenu</h3>
+            </div>
             <div class="row nav-slide">
-                <div class="text-left col-6">
-                    <span class="btn btn-primary"><i class="material-icons">chevron_left</i></span>
+                <div class="text-left col-6" *ngIf="showPreviouxButton == true">
+                    <span class="btn btn-primary" (click)="previous()"><i class="material-icons">chevron_left</i></span>
                 </div>
-                <div class="text-right col-6">
-                    <span class="btn btn-primary"><i class="material-icons">chevron_right</i></span>
+                <div class="text-right col-12" *ngIf="showPreviouxButton == false && showNextButton == true">
+                    <span class="btn btn-primary" (click)="next()"><i class="material-icons">chevron_right</i></span>
                 </div>
-            </div>          
-
+                <div class="text-right col-6" *ngIf="showPreviouxButton == true && showNextButton == true">
+                    <span class="btn btn-primary" (click)="next()"><i class="material-icons">chevron_right</i></span>
+                </div>
+                <div class="text-right col-6" *ngIf="showPreviouxButton == true && showNextButton == false">
+                    <button type="submit" class="btn btn-primary btn-sm" (click)="pushResult()">Valider</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
