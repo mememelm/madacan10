@@ -20,6 +20,7 @@ import { MenuComponent } from './application/navigation-content/menu/menu.compon
 import { ModuleComponent } from './application/module/module.component';
 import { HeaderComponent } from './application/navigation-content/header/header.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgbModule
   ],
   providers: [
     {

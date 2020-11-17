@@ -1,10 +1,12 @@
-import { Component, OnInit, EventEmitter, OnChanges } from '@angular/core';
+import { Component, OnInit, EventEmitter, OnChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { QuestionService } from 'src/app/services/question.service';
 import { ModuleService } from '../../services/module.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { AnswerService } from 'src/app/services/answer.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-formation',
@@ -12,6 +14,9 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ['./formation.component.css']
 })
 export class FormationComponent implements OnInit, OnChanges {
+
+  @ViewChild('confirmAction') confirmAction: any
+  public dtTiggers = new Subject()
 
   public formation: any
   public listModules: any = []
@@ -22,8 +27,8 @@ export class FormationComponent implements OnInit, OnChanges {
 
   public listQuestions: any = []
   public question: any
+  public questionId: any
   public listAnswers: any = []
-  public dtTiggers = new Subject()
 
   public formationContent: any
   public indexQuestions: any
@@ -34,6 +39,7 @@ export class FormationComponent implements OnInit, OnChanges {
 
   public selectedAnswer: any
   public stateAnswer: any
+  public initPoint: any = 0
   public countPoint: any
 
   constructor(
@@ -41,7 +47,9 @@ export class FormationComponent implements OnInit, OnChanges {
     private moduleService: ModuleService,
     private questionService: QuestionService,
     private evaluationService: EvaluationService,
-    private spinner: NgxSpinnerService
+    private answerService: AnswerService,
+    private spinner: NgxSpinnerService,
+    private ngbModal: NgbModal
   ) {
     this.indexQuestions = 0
     this.showNextButton = true
@@ -50,6 +58,10 @@ export class FormationComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+
+    localStorage.setItem('totalPoint', this.initPoint)
+    localStorage.removeItem('resultEvaluation')
+    localStorage.removeItem('totalQuestion')
 
     this.alertQuestions = false
 
@@ -74,6 +86,13 @@ export class FormationComponent implements OnInit, OnChanges {
   }
 
   /**
+   * beginExercise
+   */
+  public beginExercise() {
+    
+  }
+
+  /**
    * loadQuestion
    */
   public loadQuestion(moduleId: any): void {
@@ -85,6 +104,7 @@ export class FormationComponent implements OnInit, OnChanges {
       .subscribe((res: any) => {
 
         this.listQuestions = res.data
+        console.log('listQuestions', this.listQuestions)
 
         if (this.listQuestions.length == 0) {
           console.log('AUCUNE QUESION')
@@ -94,11 +114,16 @@ export class FormationComponent implements OnInit, OnChanges {
           localStorage.setItem('totalQuestion', this.listQuestions.length)
           this.alertQuestions = false
           this.question = res.data[this.indexQuestions].content
-          this.listAnswers = res.data[this.indexQuestions].questions
+          // this.listAnswers = res.data[this.indexQuestions].questions
+
+          let questionChecked = res.data[this.indexQuestions].id
+          console.log('questionChecked', questionChecked)
+
+          this.loadAnswers(questionChecked)
 
           console.log('question', this.question)
           console.log([this.indexQuestions, this.listQuestions.length])
-          console.log('listAnswers', [this.listAnswers, this.listAnswers.length])
+          // console.log('listAnswers', [this.listAnswers, this.listAnswers.length])
 
           if ((this.indexQuestions + 1) == this.listQuestions.length) {
             this.showNextButton = false
@@ -107,22 +132,36 @@ export class FormationComponent implements OnInit, OnChanges {
           }
           this.dtTiggers.next()
         }
+      })
+  }
 
+  /**
+   * loadAnswers
+   */
+  public loadAnswers(question: number) {
+    let body = {
+      questionId: question
+    }
+    this.answerService.getAnswer(body)
+      .subscribe((res: any) => {
+        this.listAnswers = res.data
+        console.log('listAnswers', this.listAnswers)
       })
   }
 
   // emit idModule for content
   public emitDataModule(item: any) {
-    localStorage.removeItem('totalPoint')
+    this.indexQuestions = 0
+    localStorage.setItem('totalPoint', this.initPoint)
     localStorage.removeItem('totalQuestion')
     localStorage.removeItem('resultEvaluation')
     this.showPreviouxButton = false
     this.emitModule.emit(item)
     this.moduleId = item.id
+    localStorage.setItem('moduleId', this.moduleId)
     this.moduleName = item.name
     this.loadQuestion(this.moduleId)
-    this.formationContent = true
-    this.indexQuestions = 0
+    this.formationContent = true    
     console.log('module', [this.moduleId, this.moduleName])
   }
 
@@ -135,11 +174,13 @@ export class FormationComponent implements OnInit, OnChanges {
 
   // ========= slide question ======================================
   // NEXT
-  public next() {
-    this.indexQuestions += 1
+  public next() {  
+    this.indexQuestions += 1      
     console.log('next', this.indexQuestions)
+
     this.getIndexQuestion(this.indexQuestions)
     this.loadQuestion(this.moduleId)
+    
     if (this.stateAnswer == true) {
       this.countPoint += 1
       localStorage.setItem('totalPoint', this.countPoint)
@@ -147,14 +188,16 @@ export class FormationComponent implements OnInit, OnChanges {
   }
 
   // PREVIOUS
-  public previous() {
-    this.indexQuestions -= 1
+  public previous() {  
+    this.indexQuestions -= 1  
     console.log('previous', this.indexQuestions)
     this.getIndexQuestion(this.indexQuestions)
-    this.loadQuestion(this.moduleId)
+    this.loadQuestion(this.moduleId)    
   }
 
+  // PUSH RESULTAT
   public pushResult() {
+    this.closeModal()
     if (this.stateAnswer == true) {
       this.countPoint += 1
       localStorage.setItem('totalPoint', this.countPoint)
@@ -164,7 +207,7 @@ export class FormationComponent implements OnInit, OnChanges {
 
     let totalPoint: any = localStorage.getItem('totalPoint')
     let maxPoint: any = localStorage.getItem('totalQuestion')
-    let pourcentPoint: any = (totalPoint/maxPoint)*100
+    let pourcentPoint: any = (totalPoint / maxPoint) * 100
 
     let resultFormation = Number(localStorage.getItem('formationPourcentage'))
     console.log('RESULTAT EVALUATION', [pourcentPoint, resultFormation])
@@ -190,7 +233,7 @@ export class FormationComponent implements OnInit, OnChanges {
         console.log('resultat', res)
         this.router.navigateByUrl('evaluation')
         this.spinner.hide()
-      })    
+      })
   }
   // ================================================================
 
@@ -210,5 +253,21 @@ export class FormationComponent implements OnInit, OnChanges {
 
   public toHome() {
     this.router.navigateByUrl('home')
+  }
+
+  // MODAL ===================================================
+
+  /**
+   * closeModal
+   */
+  public closeModal() {
+    this.ngbModal.dismissAll()
+  }
+
+  /**
+   * openModal
+   */
+  public openModal(modal: any) {
+    this.ngbModal.open(modal)
   }
 }
