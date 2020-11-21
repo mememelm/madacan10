@@ -13,10 +13,18 @@
 
         <div class="col-sm-8 text-center" *ngIf="formationContent == false">
             <h3>Veuillez choisir votre module actuel</h3>
+            <button class="btn btn-primary animate__animated animate__zoomInDown" 
+            *ngIf="showBeginButton == true" (click)="openModal(confirmExercise)">
+                Commencer l'exercice sur <b>{{moduleName}}</b>
+            </button>
+            <div *ngIf="alertNumberExercise == true">
+                <h3>Vous avez déjà fait {{numberExercise}} exercices dans le module {{moduleName}} qui est le nombre nombre maximum autorisé</h3>
+            </div>
         </div>
 
         <div class="col-sm-8" *ngIf="formationContent == true">
             <h3><i class="material-icons">chevron_right</i> Module <b>{{moduleName}}</b></h3>
+
             <!-- CONTENT QUESTIONNAIRE -->
             <div *ngIf="alertQuestions == false">
                 <h5> Question n°{{indexQuestions+1}} : {{question}}</h5>
@@ -30,9 +38,13 @@
                     </div>
                 </form>
             </div>
-            <div *ngIf="alertQuestions == true">
+
+            <!-- ALERT QUESTIONNAIRE VIDE -->
+            <div *ngIf="alertQuestions == true" class="text-center">
                 <h3 class="col-sm-8 text-center">Ce module n'a pas de contenu</h3>
-            </div>
+            </div>           
+
+            <!-- BOUTON NEXT PREVIOUS -->
             <div class="row nav-slide">
                 <div class="text-left col-6" *ngIf="showPreviouxButton == true">
                     <span class="btn btn-primary" (click)="previous()"><i class="material-icons">chevron_left</i></span>
@@ -53,6 +65,71 @@
 <p class="text-center copyright">
     © Copyright 2020 Madacan
 </p>
+
+<!-- CONFIRME Exercise -->
+<ng-template #confirmExercise>
+    <div class="modal-header">
+        <h5>Alerte exercice</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body modal-connect text-center">
+        Etes-vous sûr de commencer l'exercice du module <b>{{moduleName}}</b> ? 
+       <p><b>En acceptant, cet exercice sera comptabilisé.</b></p> 
+       <p>Nombre de tentative : {{numberExercise}}</p>
+    </div>
+
+    <div class="form-group d-flex justify-content-center mt-5">
+        <button class="btn btn-md btn-primary mr-1" (click)="beginExercise()">
+            OUI
+        </button>
+        <button class="btn btn-md btn-primary ml-1" (click)="closeModal()">
+            NON
+        </button>
+    </div>
+</ng-template>
+
+<!-- skip Exercise -->
+<ng-template #alertSkipExercise>
+    <div class="modal-header">
+        <h5>Attention !!!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body modal-connect text-center">
+        Etes-vous sûr de quitter l'exercice du module <b>{{moduleName}}</b> ?
+        <p><b>NB : Cet exercice a déjà été comptabilisé</b></p>        
+    </div>
+
+    <div class="form-group d-flex justify-content-center mt-5">
+        <button class="btn btn-md btn-primary mr-1" (click)="skipExercise()">
+            OUI
+        </button>
+        <button class="btn btn-md btn-primary ml-1" (click)="closeModal()">
+            NON
+        </button>
+    </div>
+</ng-template>
+
+<!-- skip Exercise -->
+<ng-template #emptyResponse>
+    <div class="modal-header">
+        <h5>Réponse vide</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body modal-connect text-center">
+        Veuillez au moins sélectionner une réponse.
+    </div>
+    <div class="form-group d-flex justify-content-center mt-5">
+        <button class="btn btn-md btn-primary ml-1" (click)="closeModal()">
+            Fermer l'aperçu
+        </button>
+    </div>
+</ng-template>
 
 <!-- CONFIRM MODAL -->
 <ng-template #confirmAction>

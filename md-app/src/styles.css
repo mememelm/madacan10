@@ -66,6 +66,15 @@ body {position:relative;height:100%;font-family: 'Poppins', sans-serif;font-size
 .download-list li .cont-img .cont-ico .material-icons {font-size:90px; color:#fff;}
 .download-list li .cont-txt h4 {font-size:90px; color:#fff;color:#000000;font-size:12px; padding:17px 5px;}
 
+.cursor-pt {
+	cursor: pointer;
+}
+
+/* .modal-xl .modal-lg {
+	height: 100%;
+	width: 100px;
+} */
+
 @media (max-width: 1199px) {
 
 }

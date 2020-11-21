@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Exercise } from '../constant/exercise';
 import { environment } from '../../environments/environment';
 import { retry, catchError } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import { identity, Observable, throwError } from 'rxjs';
+import { identifierName } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,19 @@ export class ExerciseService {
     return this.httpClient
       .post<Exercise>(
         this.api + 'exercises/findby-user',
+        JSON.stringify(data),
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError))
+  }
+
+  /**
+   * getExerciseByUserByModule
+   */
+  public getExerciseByUserByModule(data): Observable<Exercise> {
+    return this.httpClient
+      .post<Exercise>(
+        this.api + 'exercises/findby-user-bymodule',
         JSON.stringify(data),
         this.httpOptions
       )

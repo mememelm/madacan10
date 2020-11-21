@@ -26,6 +26,8 @@
     "animate.css": "^4.1.0",
     "bootstrap": "^4.5.2",
     "jquery": "^3.5.1",
+    "lodash-es": "^4.17.15",
+    "ngx-doc-viewer": "^1.4.0",
     "ngx-spinner": "^10.0.1",
     "rxjs": "^6.6.3",
     "tslib": "^2.0.0",

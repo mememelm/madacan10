@@ -7,6 +7,7 @@ import { ModuleService } from '../../services/module.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AnswerService } from 'src/app/services/answer.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ExerciseService } from 'src/app/services/exercise.service';
 
 @Component({
   selector: 'app-formation',
@@ -16,7 +17,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class FormationComponent implements OnInit, OnChanges {
 
   @ViewChild('confirmAction') confirmAction: any
+  @ViewChild('confirmExercise') confirmExercise: any
+  @ViewChild('alertSkipExercise') alertSkipExercise: any
+  @ViewChild('emptyResponse') emptyResponse: any
+
   public dtTiggers = new Subject()
+
+  public userId: any
 
   public formation: any
   public listModules: any = []
@@ -36,11 +43,15 @@ export class FormationComponent implements OnInit, OnChanges {
   public showPreviouxButton: any
 
   public alertQuestions: any
+  public showBeginButton: any
 
   public selectedAnswer: any
   public stateAnswer: any
   public initPoint: any = 0
   public countPoint: any
+  public alertNumberExercise: any
+  public numberExercise: any
+  public exerciseId: any
 
   constructor(
     private router: Router,
@@ -48,26 +59,26 @@ export class FormationComponent implements OnInit, OnChanges {
     private questionService: QuestionService,
     private evaluationService: EvaluationService,
     private answerService: AnswerService,
+    private exerciseService: ExerciseService,
     private spinner: NgxSpinnerService,
     private ngbModal: NgbModal
   ) {
     this.indexQuestions = 0
     this.showNextButton = true
-    this.showPreviouxButton = false
+    this.showPreviouxButton = this.showBeginButton = false
     this.countPoint = 0
   }
 
   ngOnInit(): void {
 
+    this.userId = localStorage.getItem('userId')
+
     localStorage.setItem('totalPoint', this.initPoint)
     localStorage.removeItem('resultEvaluation')
     localStorage.removeItem('totalQuestion')
 
-    this.alertQuestions = false
-
+    this.alertQuestions = this.formationContent = this.alertNumberExercise = false
     console.log('indexQuestions', this.indexQuestions)
-
-    this.formationContent = false
     this.formation = localStorage.getItem('currentFormation')
 
     let body = {
@@ -83,13 +94,6 @@ export class FormationComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     this.loadQuestion(this.moduleId)
-  }
-
-  /**
-   * beginExercise
-   */
-  public beginExercise() {
-    
   }
 
   /**
@@ -151,36 +155,154 @@ export class FormationComponent implements OnInit, OnChanges {
 
   // emit idModule for content
   public emitDataModule(item: any) {
+    if (this.formationContent == true) {
+      this.ngbModal.open(this.alertSkipExercise)
+    } else {
+      // INITIALISATION STORAGE + CONTENT PRINCIPAL
+      this.indexQuestions = 0
+      localStorage.setItem('response', 'empty')
+      localStorage.setItem('totalPoint', this.initPoint)
+      localStorage.removeItem('totalQuestion')
+      localStorage.removeItem('resultEvaluation')
+      this.emitModule.emit(item)
+      this.moduleId = item.id
+      localStorage.setItem('moduleId', this.moduleId)
+      this.moduleName = item.name
+
+      // GET NUMBER EXERCISE BY MODULE    
+      this.getExerciseNumber(this.userId, localStorage.getItem('moduleId'))
+
+      console.log('module', [this.moduleId, this.moduleName])
+    }
+  }
+
+  /**
+   * getExerciseNumber
+   */
+  public getExerciseNumber(userId, moduleId) {
+    let body = {
+      user: userId,
+      module: moduleId
+    }
+    this.exerciseService.getExerciseByUserByModule(body)
+      .subscribe((res: any) => {
+
+        let exercise = res.data
+        console.log('exercise', exercise)
+
+        // GESTION VUE EXERCICE
+        if (exercise.length == 0) {
+          this.numberExercise = 0
+          localStorage.setItem('numberExercise', this.initPoint)
+          // BTN AND CONTENT EXCERCICE
+          this.showBeginButton = true
+          this.alertNumberExercise = this.formationContent = this.showPreviouxButton = false
+        } else {
+          this.exerciseId = localStorage.setItem('exerciseId', res.data[0].id)
+          this.numberExercise = res.data[0].number
+          localStorage.setItem('numberExercise', this.numberExercise)
+          console.log('numberExercise', this.numberExercise)
+          if (this.numberExercise == 2) {
+            this.showBeginButton = this.formationContent = this.showPreviouxButton = false
+            this.alertNumberExercise = true
+          } else {
+            this.showBeginButton = true
+            this.alertNumberExercise = false
+          }
+        }
+      })
+  }
+
+  /**
+   * skipeExercise
+   */
+  public skipExercise() {
     this.indexQuestions = 0
+    
+    localStorage.setItem('response', 'empty')
     localStorage.setItem('totalPoint', this.initPoint)
+
+    this.getExerciseNumber(this.userId, localStorage.getItem('moduleId'))
+
     localStorage.removeItem('totalQuestion')
     localStorage.removeItem('resultEvaluation')
-    this.showPreviouxButton = false
-    this.emitModule.emit(item)
-    this.moduleId = item.id
-    localStorage.setItem('moduleId', this.moduleId)
-    this.moduleName = item.name
-    this.loadQuestion(this.moduleId)
-    this.formationContent = true    
-    console.log('module', [this.moduleId, this.moduleName])
+    localStorage.removeItem('moduleId')
+
+    this.showBeginButton = true
+    this.formationContent = this.showNextButton = this.showPreviouxButton = this.alertNumberExercise = false
+    this.ngbModal.dismissAll()
+  }
+
+  /**
+   * beginExercise
+   */
+  public beginExercise() {
+
+    let number: any = Number(localStorage.getItem('numberExercise'))
+    let exercise: any = localStorage.getItem('exerciseId')
+
+    // ADD OR UPDATE NUMBER EXERCISE
+    if (number == 2) {
+      return
+    }
+
+    // UPDATE N exercise
+    if (number == 1) {
+      let body = {
+        user: this.userId,
+        module: this.moduleId,
+        number: number + 1
+      }
+      this.exerciseService.updateExerciseByUser(body, exercise)
+        .subscribe((res: any) => {
+          console.log(res)
+        })
+
+      this.ngbModal.dismissAll()
+
+      this.loadQuestion(this.moduleId)
+      this.formationContent = true
+    }
+
+    // ADD N exercise
+    else {
+      this.showBeginButton = false
+      console.log('begin exercice module', [this.moduleId, this.moduleName])
+
+      let body = {
+        user: this.userId,
+        module: this.moduleId,
+        number: 1
+      }
+      this.exerciseService.createExercise(body)
+        .subscribe((res: any) => {
+          console.log(res)
+        })
+
+      this.ngbModal.dismissAll()
+
+      this.loadQuestion(this.moduleId)
+      this.formationContent = true
+    }
   }
 
   // selection réponse pour state
   onSelectionChange(item: any) {
     this.selectedAnswer = Object.assign({}, this.selectedAnswer, item)
     this.stateAnswer = this.selectedAnswer.state
+    localStorage.setItem('response', 'notEmpty')
     console.log('selectedAnswer', [this.selectedAnswer, this.stateAnswer])
   }
 
   // ========= slide question ======================================
   // NEXT
-  public next() {  
-    this.indexQuestions += 1      
+  public next() {
+    this.indexQuestions += 1
     console.log('next', this.indexQuestions)
 
     this.getIndexQuestion(this.indexQuestions)
     this.loadQuestion(this.moduleId)
-    
+
     if (this.stateAnswer == true) {
       this.countPoint += 1
       localStorage.setItem('totalPoint', this.countPoint)
@@ -188,52 +310,60 @@ export class FormationComponent implements OnInit, OnChanges {
   }
 
   // PREVIOUS
-  public previous() {  
-    this.indexQuestions -= 1  
+  public previous() {
+    this.indexQuestions -= 1
     console.log('previous', this.indexQuestions)
     this.getIndexQuestion(this.indexQuestions)
-    this.loadQuestion(this.moduleId)    
+    this.loadQuestion(this.moduleId)
   }
 
   // PUSH RESULTAT
   public pushResult() {
-    this.closeModal()
-    if (this.stateAnswer == true) {
-      this.countPoint += 1
-      localStorage.setItem('totalPoint', this.countPoint)
-    }
 
-    this.spinner.show()
-
-    let totalPoint: any = localStorage.getItem('totalPoint')
-    let maxPoint: any = localStorage.getItem('totalQuestion')
-    let pourcentPoint: any = (totalPoint / maxPoint) * 100
-
-    let resultFormation = Number(localStorage.getItem('formationPourcentage'))
-    console.log('RESULTAT EVALUATION', [pourcentPoint, resultFormation])
-
-    if (pourcentPoint < resultFormation) {
-      localStorage.setItem('resultEvaluation', 'KO')
+    let response = localStorage.getItem('response')
+    if (response == 'empty') {
+      this.ngbModal.open(this.emptyResponse)
     } else {
-      localStorage.setItem('resultEvaluation', 'OK')
+
+      this.closeModal()
+      if (this.stateAnswer == true) {
+        this.countPoint += 1
+        localStorage.setItem('totalPoint', this.countPoint)
+      }
+
+      this.spinner.show()
+
+      let totalPoint: any = localStorage.getItem('totalPoint')
+      let maxPoint: any = localStorage.getItem('totalQuestion')
+      let pourcentPoint: any = (totalPoint / maxPoint) * 100
+
+      let resultFormation = Number(localStorage.getItem('formationPourcentage'))
+      console.log('RESULTAT EVALUATION', [pourcentPoint, resultFormation])
+
+      if (pourcentPoint < resultFormation) {
+        localStorage.setItem('resultEvaluation', 'KO')
+      } else {
+        localStorage.setItem('resultEvaluation', 'OK')
+      }
+      console.log('RESULAT EVAL', localStorage.getItem('resultEvaluation'))
+
+      let body = {
+        user: localStorage.getItem('userId'),
+        result: pourcentPoint.toFixed(2),
+        date: new Date(),
+        score: localStorage.getItem('totalPoint')
+      }
+
+      console.log('body', body)
+
+      this.evaluationService.pushUserEvaluation(body)
+        .subscribe((res: any) => {
+          console.log('resultat', res)
+          this.router.navigateByUrl('evaluation')
+          this.spinner.hide()
+        })
     }
-    console.log('RESULAT EVAL', localStorage.getItem('resultEvaluation'))
 
-    let body = {
-      user: localStorage.getItem('userId'),
-      result: pourcentPoint.toFixed(2),
-      date: new Date(),
-      score: localStorage.getItem('totalPoint')
-    }
-
-    console.log('body', body)
-
-    this.evaluationService.pushUserEvaluation(body)
-      .subscribe((res: any) => {
-        console.log('resultat', res)
-        this.router.navigateByUrl('evaluation')
-        this.spinner.hide()
-      })
   }
   // ================================================================
 
@@ -268,6 +398,11 @@ export class FormationComponent implements OnInit, OnChanges {
    * openModal
    */
   public openModal(modal: any) {
-    this.ngbModal.open(modal)
+    let exercise: any = localStorage.getItem('numberExercise')
+    if (exercise == 2) {
+      return
+    } else {
+      this.ngbModal.open(modal)
+    }
   }
 }

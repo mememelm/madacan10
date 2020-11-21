@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // param min
 const minLogout = 7;
@@ -12,7 +13,10 @@ const storeKey = 'lastAction';
 export class AutoLogoutService {
     val: any;
 
-    constructor(private router: Router) {
+    constructor(
+        private router: Router,
+        private ngbModal: NgbModal
+    ) {
         this.checkTime();
         this.initListener();
         this.initInterval();
@@ -37,7 +41,7 @@ export class AutoLogoutService {
     // setINterval
     initInterval() {
         setInterval(() => {
-        this.checkTime();
+            this.checkTime();
         }, checkInterval);
     }
 
@@ -50,8 +54,9 @@ export class AutoLogoutService {
         const isTimeout = diff < 0;
 
         if (isTimeout) {
-        localStorage.clear();
-        this.router.navigate(['']);
+            this.ngbModal.dismissAll()
+            localStorage.clear()
+            this.router.navigate([''])
         }
     }
 

@@ -19,8 +19,11 @@ import { CourseComponent } from './application/course/course.component';
 import { MenuComponent } from './application/navigation-content/menu/menu.component';
 import { ModuleComponent } from './application/module/module.component';
 import { HeaderComponent } from './application/navigation-content/header/header.component';
+
+// MODULE
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxDocViewerModule } from "ngx-doc-viewer";
 
 @NgModule({
   declarations: [
@@ -41,7 +44,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     FormsModule,
     NgxSpinnerModule,
-    NgbModule
+    NgbModule,
+    NgxDocViewerModule
   ],
   providers: [
     {

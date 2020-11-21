@@ -1,8 +1,9 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SupportService } from 'src/app/services/support.service';
 import { ModuleService } from "../../services/module.service";
 import { NgxSpinnerService } from "ngx-spinner";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-course',
@@ -10,6 +11,10 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ['./course.component.css']
 })
 export class CourseComponent implements OnInit {
+
+  @ViewChild('pdf') pdf: any
+  @ViewChild('video') video: any
+  @ViewChild('msOffice') msOffice: any
 
   public formation: any
   public listModules: any = []
@@ -27,11 +32,17 @@ export class CourseComponent implements OnInit {
   public alertCourseEmpty: any
   public courseContent: any
 
+  public pdfSrc: any = []
+  pdff = "https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf"
+  public videoSrc: any = []
+  public pptSrc: any = []
+
   constructor(
     private router: Router,
     private moduleService: ModuleService,
     private supportService: SupportService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private ngbModal: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -74,14 +85,17 @@ export class CourseComponent implements OnInit {
         for (let i = 0; i < this.listSupports.length; i++) {
           if (res.data[i].type == 'Video') {
             this.fileVideo[i] = true
+            this.videoSrc[i] = res.data[i].files
           }
           if (res.data[i].type == 'PDF') {
             this.filePdf[i] = true
+            this.pdfSrc[i] = res.data[i].files
           }
           if (res.data[i].type == 'PPT') {
             this.filePpt[i] = true
+            this.pptSrc[i] = res.data[i].files
           }
-          this.fileName[i] = res.data[i].files.substr(55)
+          this.fileName[i] = res.data[i].files.substr(55)          
         }
         this.spinner.hide()
       })
@@ -99,5 +113,16 @@ export class CourseComponent implements OnInit {
 
   public toHome() {
     this.router.navigateByUrl('home')
+  }
+
+  /**
+   * openPdf
+   */
+  public openViewModal(modal) {
+    this.ngbModal.open(modal, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+      // windowClass: 'modal-xl'
+    })
   }
 }

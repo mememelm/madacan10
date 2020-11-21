@@ -4,3 +4,5 @@
 [1002/001919.156:ERROR:registration_protocol_win.cc(103)] CreateFile: Le fichier spécifié est introuvable. (0x2)
 [1114/202627.588:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d’accès spécifié est introuvable. (0x3)
 [1115/084806.392:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d’accès spécifié est introuvable. (0x3)
+[1118/203914.834:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d’accès spécifié est introuvable. (0x3)
+[1119/022956.989:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d’accès spécifié est introuvable. (0x3)
