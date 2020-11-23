@@ -15,12 +15,15 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public toCourse() {
-    this.router.navigateByUrl('course')
+  public route(router) {
+    this.router.navigateByUrl(router)
   }
 
-  public toFormation() {
-    this.router.navigateByUrl('formation')
+  /**
+   * setEvalutationState
+   */
+  public setEvalutationState() {
+    localStorage.setItem('evaluationState', 'list')
   }
 
 }

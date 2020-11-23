@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormationService } from '../../../services/formation.service';
+import * as screenfull from 'screenfull';
 
 @Component({
   selector: 'app-home',
@@ -15,11 +15,14 @@ export class HomeComponent implements OnInit {
   public lastname: any
 
   constructor(
-    private router: Router,
-    private formationService: FormationService,
+    private formationService: FormationService
   ) { }
 
   ngOnInit(): void {
+
+    if (screenfull.isEnabled) {
+      screenfull.request()
+    }
 
     this.formation = localStorage.getItem('currentFormation')
 
@@ -45,9 +48,5 @@ export class HomeComponent implements OnInit {
     let user = JSON.parse(localStorage.getItem('currentUser'))
     this.firstname = user.firstname
     this.lastname = user.lastname
-  }
-
-  public toHome() {
-    this.router.navigateByUrl('home')
-  }
+  }  
 }

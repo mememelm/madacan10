@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, OnChanges, ViewChild } from '@angular/core';
+import { LocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { EvaluationService } from 'src/app/services/evaluation.service';
@@ -20,6 +21,7 @@ export class FormationComponent implements OnInit, OnChanges {
   @ViewChild('confirmExercise') confirmExercise: any
   @ViewChild('alertSkipExercise') alertSkipExercise: any
   @ViewChild('emptyResponse') emptyResponse: any
+  @ViewChild('confirmBeginTest') confirmBeginTest: any
 
   public dtTiggers = new Subject()
 
@@ -31,6 +33,9 @@ export class FormationComponent implements OnInit, OnChanges {
   public emitModule: EventEmitter<any> = new EventEmitter
   public moduleId: any
   public moduleName: any
+
+  public evaluationAffiliation: any
+  public evaluationState: any
 
   public listQuestions: any = []
   public question: any
@@ -53,7 +58,15 @@ export class FormationComponent implements OnInit, OnChanges {
   public numberExercise: any
   public exerciseId: any
 
+  public safeSkip: any
+
+  public showModuleMenu: any
+  public showTimeout: any
+  public moduleDuration: any
+  public timer: any
+
   constructor(
+    private locationStrategy: LocationStrategy,
     private router: Router,
     private moduleService: ModuleService,
     private questionService: QuestionService,
@@ -63,13 +76,17 @@ export class FormationComponent implements OnInit, OnChanges {
     private spinner: NgxSpinnerService,
     private ngbModal: NgbModal
   ) {
-    this.indexQuestions = 0
-    this.showNextButton = true
-    this.showPreviouxButton = this.showBeginButton = false
-    this.countPoint = 0
+    this.locationStrategy.onPopState(() => {
+      history.pushState(null, null, window.location.href)
+    });
+
+    this.indexQuestions = this.countPoint = 0
+    this.showNextButton = this.showPreviouxButton = this.showBeginButton = false
+    this.safeSkip = true
   }
 
   ngOnInit(): void {
+    this.showModuleMenu = true
 
     this.userId = localStorage.getItem('userId')
 
@@ -77,7 +94,7 @@ export class FormationComponent implements OnInit, OnChanges {
     localStorage.removeItem('resultEvaluation')
     localStorage.removeItem('totalQuestion')
 
-    this.alertQuestions = this.formationContent = this.alertNumberExercise = false
+    this.alertQuestions = this.formationContent = this.alertNumberExercise = this.showTimeout = false
     console.log('indexQuestions', this.indexQuestions)
     this.formation = localStorage.getItem('currentFormation')
 
@@ -113,6 +130,7 @@ export class FormationComponent implements OnInit, OnChanges {
         if (this.listQuestions.length == 0) {
           console.log('AUCUNE QUESION')
           this.alertQuestions = true
+          this.showNextButton = false
         } else {
           console.log('QUESTION EXISTE')
           localStorage.setItem('totalQuestion', this.listQuestions.length)
@@ -157,7 +175,14 @@ export class FormationComponent implements OnInit, OnChanges {
   public emitDataModule(item: any) {
     if (this.formationContent == true) {
       this.ngbModal.open(this.alertSkipExercise)
+      if (this.listQuestions.length !== 0) {
+        this.safeSkip = false
+      } else {
+        this.safeSkip = true
+      }
+
     } else {
+
       // INITIALISATION STORAGE + CONTENT PRINCIPAL
       this.indexQuestions = 0
       localStorage.setItem('response', 'empty')
@@ -168,6 +193,8 @@ export class FormationComponent implements OnInit, OnChanges {
       this.moduleId = item.id
       localStorage.setItem('moduleId', this.moduleId)
       this.moduleName = item.name
+      this.moduleDuration = item.duration
+      localStorage.setItem('moduleDuration', this.moduleDuration)
 
       // GET NUMBER EXERCISE BY MODULE    
       this.getExerciseNumber(this.userId, localStorage.getItem('moduleId'))
@@ -217,8 +244,28 @@ export class FormationComponent implements OnInit, OnChanges {
    * skipeExercise
    */
   public skipExercise() {
+
+    if (this.listQuestions.length == 0) {
+      let body = {
+        user: this.userId,
+        module: this.moduleId,
+        number: 0
+      }
+      this.exerciseService.updateExerciseByUser(body, localStorage.getItem('exerciseAddedId'))
+        .subscribe((res: any) => {
+          console.log(res)
+          this.formationContent = false
+          this.ngbModal.dismissAll()
+        })
+    } else {
+      this.initDataExerciseAfterSkip()
+    }
+  }
+
+  // init DATA EXERCISE SKIPE
+  public initDataExerciseAfterSkip() {
     this.indexQuestions = 0
-    
+
     localStorage.setItem('response', 'empty')
     localStorage.setItem('totalPoint', this.initPoint)
 
@@ -240,6 +287,8 @@ export class FormationComponent implements OnInit, OnChanges {
 
     let number: any = Number(localStorage.getItem('numberExercise'))
     let exercise: any = localStorage.getItem('exerciseId')
+
+    localStorage.setItem('userDoing', 'exercise')
 
     // ADD OR UPDATE NUMBER EXERCISE
     if (number == 2) {
@@ -277,6 +326,7 @@ export class FormationComponent implements OnInit, OnChanges {
       this.exerciseService.createExercise(body)
         .subscribe((res: any) => {
           console.log(res)
+          localStorage.setItem('exerciseAddedId', res.exercise.id)
         })
 
       this.ngbModal.dismissAll()
@@ -284,6 +334,45 @@ export class FormationComponent implements OnInit, OnChanges {
       this.loadQuestion(this.moduleId)
       this.formationContent = true
     }
+  }
+
+  /**
+   * confirmBeginTest
+   */
+  public confirmBeginTestModule() {
+    this.ngbModal.open(this.confirmBeginTest)
+  }
+
+  /**
+   * beginTestModule
+   */
+  public beginTestModule() {
+
+    // initialisation environnement test
+    let duration = Number(localStorage.getItem('moduleDuration'))
+    this.showModuleMenu = false
+    this.formationContent = this.showTimeout = true
+    localStorage.setItem('userDoing', 'test')
+
+    this.loadQuestion(this.moduleId)
+    this.closeModal()
+    this.testTimeoutIntervalle(duration)
+
+  }
+
+  /**
+   * testTimeoutIntervalle
+   */
+  public testTimeoutIntervalle(duration: number) {
+    this.timer = duration * 60
+    console.log('timer', this.timer)
+      setInterval(() => {
+        this.timer -= 1
+        if (this.timer == 0) {
+          this.pushResult()
+          this.router.navigateByUrl('')
+        }
+      }, 1000)
   }
 
   // selection réponse pour state
@@ -320,7 +409,15 @@ export class FormationComponent implements OnInit, OnChanges {
   // PUSH RESULTAT
   public pushResult() {
 
+    let userDoing = localStorage.getItem('userDoing')
     let response = localStorage.getItem('response')
+
+    if (userDoing == 'exercise') {
+      this.evaluationAffiliation = 'Exercice'
+    } else {
+      this.evaluationAffiliation = 'Test'
+    }
+
     if (response == 'empty') {
       this.ngbModal.open(this.emptyResponse)
     } else {
@@ -342,8 +439,10 @@ export class FormationComponent implements OnInit, OnChanges {
 
       if (pourcentPoint < resultFormation) {
         localStorage.setItem('resultEvaluation', 'KO')
+        this.evaluationState = 0
       } else {
         localStorage.setItem('resultEvaluation', 'OK')
+        this.evaluationState = 1
       }
       console.log('RESULAT EVAL', localStorage.getItem('resultEvaluation'))
 
@@ -351,7 +450,10 @@ export class FormationComponent implements OnInit, OnChanges {
         user: localStorage.getItem('userId'),
         result: pourcentPoint.toFixed(2),
         date: new Date(),
-        score: localStorage.getItem('totalPoint')
+        score: localStorage.getItem('totalPoint'),
+        module: this.moduleId,
+        affiliation: this.evaluationAffiliation,
+        state: this.evaluationState
       }
 
       console.log('body', body)
@@ -360,10 +462,10 @@ export class FormationComponent implements OnInit, OnChanges {
         .subscribe((res: any) => {
           console.log('resultat', res)
           this.router.navigateByUrl('evaluation')
+          localStorage.setItem('evaluationState', 'result')
           this.spinner.hide()
         })
     }
-
   }
   // ================================================================
 
@@ -373,16 +475,6 @@ export class FormationComponent implements OnInit, OnChanges {
     } else {
       this.showPreviouxButton = false
     }
-  }
-
-  // ROUTE
-  public logout() {
-    this.router.navigateByUrl('')
-    localStorage.clear()
-  }
-
-  public toHome() {
-    this.router.navigateByUrl('home')
   }
 
   // MODAL ===================================================

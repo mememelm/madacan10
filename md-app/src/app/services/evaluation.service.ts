@@ -33,6 +33,17 @@ export class EvaluationService {
     ).pipe(retry(1), catchError(this.handleError))
   }
 
+  /**
+   * getEvaluationByUser
+   */
+  public getEvaluationByUser(data): Observable<Evaluation> {
+    return this.httpClient.post<Evaluation>(
+      this.api + 'evaluations/get',
+      JSON.stringify(data),
+      this.httpOptions
+    ).pipe(retry(1), catchError(this.handleError))
+  }
+
   // Error handling
   public handleError(error) {
     let errorMessage = '';

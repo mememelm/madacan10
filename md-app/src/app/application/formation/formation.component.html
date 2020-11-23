@@ -7,18 +7,25 @@
         </div>
 
         <!-- CONTENT MODULE -->
-        <div class="col-sm-4 nav-left">
+        <div class="col-sm-4 nav-left"*ngIf="showModuleMenu == true">
             <app-module [listModules]="listModules" (emitModule)="emitDataModule($event)"></app-module>
         </div>
 
         <div class="col-sm-8 text-center" *ngIf="formationContent == false">
-            <h3>Veuillez choisir votre module actuel</h3>
-            <button class="btn btn-primary animate__animated animate__zoomInDown" 
-            *ngIf="showBeginButton == true" (click)="openModal(confirmExercise)">
+
+            <h3>Veuillez choisir votre module actuel.</h3>
+
+            <button class="btn btn-primary animate__animated animate__zoomInDown" *ngIf="showBeginButton == true"
+                (click)="openModal(confirmExercise)">
                 Commencer l'exercice sur <b>{{moduleName}}</b>
             </button>
+
             <div *ngIf="alertNumberExercise == true">
-                <h3>Vous avez déjà fait {{numberExercise}} exercices dans le module {{moduleName}} qui est le nombre nombre maximum autorisé</h3>
+                <h3 class="animate__animated animate__fadeIn">Vous avez déjà fait {{numberExercise}} exercices dans le module {{moduleName}} qui est le nombre
+                    nombre maximum autorisé.</h3>
+                <button class="btn btn-primary animate__animated animate__fadeInUp" (click)="confirmBeginTestModule()">
+                    <i class="material-icons" >playlist_add_check</i>Passer au test
+                </button>
             </div>
         </div>
 
@@ -41,8 +48,8 @@
 
             <!-- ALERT QUESTIONNAIRE VIDE -->
             <div *ngIf="alertQuestions == true" class="text-center">
-                <h3 class="col-sm-8 text-center">Ce module n'a pas de contenu</h3>
-            </div>           
+                <h3 class="col-sm-8 text-center">Ce module n'a pas de contenu.</h3>
+            </div>
 
             <!-- BOUTON NEXT PREVIOUS -->
             <div class="row nav-slide">
@@ -56,9 +63,15 @@
                     <span class="btn btn-primary" (click)="next()"><i class="material-icons">chevron_right</i></span>
                 </div>
                 <div class="text-right col-6" *ngIf="showPreviouxButton == true && showNextButton == false">
-                    <button type="submit" class="btn btn-primary btn-sm" (click)="openModal(confirmAction)">Valider</button>
+                    <button type="submit" class="btn btn-primary btn-sm"
+                        (click)="openModal(confirmAction)">Valider</button>
                 </div>
             </div>
+        </div>
+
+        <div class="col-sm-4" *ngIf="showTimeout == true">
+            <h6 class=""><i class="fas fa-stopwatch"></i> Temps restants</h6>
+            - {{timer}} S           
         </div>
     </div>
 </div>
@@ -75,9 +88,9 @@
         </button>
     </div>
     <div class="modal-body modal-connect text-center">
-        Etes-vous sûr de commencer l'exercice du module <b>{{moduleName}}</b> ? 
-       <p><b>En acceptant, cet exercice sera comptabilisé.</b></p> 
-       <p>Nombre de tentative : {{numberExercise}}</p>
+        Etes-vous sûr de commencer l'exercice du module <b>{{moduleName}}</b> ?
+        <p><b>En acceptant, cette exercice sera comptabilisée.</b></p>
+        <p>Nombre de tentative : {{numberExercise}}</p>
     </div>
 
     <div class="form-group d-flex justify-content-center mt-5">
@@ -98,9 +111,14 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body modal-connect text-center">
+    <div class="modal-body modal-connect text-center" *ngIf="safeSkip == false">
         Etes-vous sûr de quitter l'exercice du module <b>{{moduleName}}</b> ?
-        <p><b>NB : Cet exercice a déjà été comptabilisé</b></p>        
+        <p><b>NB : Cette exercice a déjà été comptabilisée.</b></p>
+    </div>
+
+    <div class="modal-body modal-connect text-center" *ngIf="safeSkip == true">
+        Cette action n'a pas été prise en compte.
+        <p>Vos données dans le module <b>{{moduleName}}</b> ont été réinitialisées.</p>
     </div>
 
     <div class="form-group d-flex justify-content-center mt-5">
@@ -145,6 +163,28 @@
 
     <div class="form-group d-flex justify-content-center mt-5">
         <button class="btn btn-md btn-primary mr-1" (click)="pushResult()">
+            OUI
+        </button>
+        <button class="btn btn-md btn-primary ml-1" (click)="closeModal()">
+            NON
+        </button>
+    </div>
+</ng-template>
+
+<!-- CONFIRM BEGIN TEST -->
+<ng-template #confirmBeginTest>
+    <div class="modal-header">
+        <h5>Attention !!!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body modal-connect d-flex justify-content-center">
+        Etes-vous sûr de vouloir débuter votre test ?
+    </div>
+
+    <div class="form-group d-flex justify-content-center mt-5">
+        <button class="btn btn-md btn-primary mr-1" (click)="beginTestModule()">
             OUI
         </button>
         <button class="btn btn-md btn-primary ml-1" (click)="closeModal()">

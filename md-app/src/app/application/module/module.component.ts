@@ -44,7 +44,7 @@ export class ModuleComponent implements OnInit {
     console.log('emitModule', item)
   }
 
-  public toHome() {
-    this.router.navigateByUrl('home')
+  public route(router) {
+    this.router.navigateByUrl(router)
   }
 }

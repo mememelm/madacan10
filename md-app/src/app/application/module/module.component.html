@@ -1,8 +1,4 @@
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="#fff" type="ball-scale" [fullScreen]="true">
-    <p style="color: white"> Veuillez patienter... </p>
-</ngx-spinner>
-
-<p (click)="toHome()"><i class="material-icons">arrow_back</i> Retour à la page d'accueil</p>
+<p (click)="route('home')"><i class="material-icons">arrow_back</i> Retour à la page d'accueil</p>
 <ul class="animate__animated animate__fadeInDown" *ngFor="let item of listModules">
     <li (click)="emitDataModule(item)"><a>{{item.name}}</a></li>
 </ul>

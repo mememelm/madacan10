@@ -1,13 +1,64 @@
 <app-header></app-header>
 
-<div class="d-flex justify-content-center">
-    <p>VOUS AVEZ EU <b>{{totalPoint}} POINTS</b> => SOIT <b>{{pourcentPoint}} %</b> de réponses exactes à votre test</p>
-</div>
+<div class="container cours">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>FORMATION | {{formation}}</h1>
+        </div>
+    </div>
 
-<div class="text-success d-flex justify-content-center mt-5" *ngIf="resultSuccess == true">
-    <b>VOUS AVEZ REUSSI VOTRE EXAMEN...</b>
-</div>
+    <div class="col-sm-4 nav-left">
+        <p (click)="route('home')"><i class="material-icons">arrow_back</i> Retour à la page d'accueil</p>
+    </div>
 
-<div class="text-danger d-flex justify-content-center mt-5" *ngIf="resultSuccess == false">
-    <b>VOUS AVEZ ECHOUEZ...</b>
+    <div *ngIf="showLastResult == true">
+        <div class="d-flex justify-content-center">
+            <p>VOUS AVEZ EU <b>{{totalPoint}} POINTS</b> => SOIT <b>{{pourcentPoint}} %</b> de réponses exactes.</p>
+        </div>
+
+        <div class="text-success d-flex justify-content-center mt-1" *ngIf="resultSuccess == true">
+            <b>VOUS AVEZ REUSSI...</b>
+        </div>
+
+        <div class="text-danger d-flex justify-content-center mt-1" *ngIf="resultSuccess == false">
+            <b>VOUS AVEZ ECHOUEZ...</b>
+        </div>
+    </div>
+
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTigger" class="row-border hover">
+        <thead>
+            <tr>
+                <th>Référence</th>
+                <th>Date</th>
+                <th>Module</th>
+                <th>Affiliation</th>
+                <th>Score</th>
+                <th>Point</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of listEvaluation">
+                <td>
+                    <span *ngIf="item.state == 0" class="text-danger"><i class="fas fa-times-circle"></i> </span>
+                    <span *ngIf="item.state == 1" class="text-success"><i class="far fa-check-circle"></i> </span>
+                    <span *ngIf="item.affiliation == 'Exercice'">{{ item.id }} - E</span>
+                    <span *ngIf="item.affiliation !== 'Exercice'">{{ item.id }} - T</span>                    
+                </td>
+                <td>{{ item.date.date | date: 'dd MMMM yyyy' }}</td>
+                <td>{{ item.module }}</td>
+                <td>
+                    <span *ngIf="item.affiliation == 'Exercice'">Exercice</span>
+                    <span *ngIf="item.affiliation !== 'Exercice'"><i class="fas fa-plus-square text-info"></i> Test</span>
+                </td>
+                <td>{{ item.result }} %</td>
+                <td>{{ item.score }}</td>
+                <td>
+                    <span *ngIf="item.state == 0">Echoué</span>
+                    <span *ngIf="item.state == 1">Réussi</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>

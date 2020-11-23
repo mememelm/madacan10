@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from "../../services/";
+import * as screenfull from 'screenfull';
 
 @Component({
   selector: 'app-connexion',
@@ -16,6 +17,11 @@ export class ConnexionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    if (screenfull.isEnabled) {
+      screenfull.request()
+    }
+
     localStorage.clear()
   }
 
