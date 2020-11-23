@@ -29,6 +29,7 @@ export class FormationComponent implements OnInit, OnChanges {
 
   public formation: any
   public listModules: any = []
+  public lastUserModules: any
 
   public emitModule: EventEmitter<any> = new EventEmitter
   public moduleId: any
@@ -107,6 +108,8 @@ export class FormationComponent implements OnInit, OnChanges {
         this.listModules = res.data
         console.log('listModules-formation/exercice/test', this.listModules)
       })
+
+    this.getLastEvaluationUser()
   }
 
   ngOnChanges(): void {
@@ -241,6 +244,34 @@ export class FormationComponent implements OnInit, OnChanges {
   }
 
   /**
+   * getLastEvaluationUser
+   */
+  public getLastEvaluationUser() {
+    let body = {
+      userId: localStorage.getItem('userId')
+    }
+    this.evaluationService.getEvaluationByUser(body)
+      .subscribe((res: any) => {
+        console.log(res)
+        let result = res.data
+        for (let i = 0; i < result.length; i++) {
+          this.lastUserModules = res.data[i]
+          let data = []
+          let objectData = {
+            affiliation : res.data[i].affiliation,
+            module: res.data[i].module,
+            state: res.data[i].state,
+            date: res.data[i].date.date
+          }
+          data.push(objectData)
+          localStorage.setItem('lastUserModules', JSON.stringify(objectData))
+        }
+        console.log('lastUserModules', this.lastUserModules)
+        
+      })
+  }
+
+  /**
    * skipeExercise
    */
   public skipExercise() {
@@ -366,13 +397,12 @@ export class FormationComponent implements OnInit, OnChanges {
   public testTimeoutIntervalle(duration: number) {
     this.timer = duration * 60
     console.log('timer', this.timer)
-      setInterval(() => {
-        this.timer -= 1
-        if (this.timer == 0) {
-          this.pushResult()
-          this.router.navigateByUrl('')
-        }
-      }, 1000)
+    setInterval(() => {
+      this.timer -= 1
+      if (this.timer == 0) {
+        this.pushResult()
+      }
+    }, 1000)
   }
 
   // selection réponse pour state
@@ -463,6 +493,7 @@ export class FormationComponent implements OnInit, OnChanges {
           console.log('resultat', res)
           this.router.navigateByUrl('evaluation')
           localStorage.setItem('evaluationState', 'result')
+          this.timer = -1
           this.spinner.hide()
         })
     }
@@ -490,11 +521,6 @@ export class FormationComponent implements OnInit, OnChanges {
    * openModal
    */
   public openModal(modal: any) {
-    let exercise: any = localStorage.getItem('numberExercise')
-    if (exercise == 2) {
-      return
-    } else {
-      this.ngbModal.open(modal)
-    }
+    this.ngbModal.open(modal)
   }
 }

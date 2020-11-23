@@ -7,26 +7,36 @@
         </div>
 
         <!-- CONTENT MODULE -->
-        <div class="col-sm-4 nav-left"*ngIf="showModuleMenu == true">
+        <div class="col-sm-4 nav-left" *ngIf="showModuleMenu == true">
             <app-module [listModules]="listModules" (emitModule)="emitDataModule($event)"></app-module>
         </div>
 
         <div class="col-sm-8 text-center" *ngIf="formationContent == false">
+            <h3 class="h3">Veuillez choisir votre module actuel.</h3>
 
-            <h3>Veuillez choisir votre module actuel.</h3>
-
-            <button class="btn btn-primary animate__animated animate__zoomInDown" *ngIf="showBeginButton == true"
+            <button class="btn btn-primary animate__animated animate__fadeIn" *ngIf="showBeginButton == true"
                 (click)="openModal(confirmExercise)">
                 Commencer l'exercice sur <b>{{moduleName}}</b>
             </button>
 
-            <div *ngIf="alertNumberExercise == true">
-                <h3 class="animate__animated animate__fadeIn">Vous avez déjà fait {{numberExercise}} exercices dans le module {{moduleName}} qui est le nombre
-                    nombre maximum autorisé.</h3>
-                <button class="btn btn-primary animate__animated animate__fadeInUp" (click)="confirmBeginTestModule()">
-                    <i class="material-icons" >playlist_add_check</i>Passer au test
+            <div class="mt-3">
+                <button class="btn btn-primary animate__animated animate__tada" *ngIf="showBeginButton == true"
+                    (click)="confirmBeginTestModule()">
+                    <i class="material-icons">playlist_add_check</i> Passer directement au test
                 </button>
             </div>
+
+
+            <div *ngIf="alertNumberExercise == true">
+                <h4 class="animate__animated animate__fadeIn h4"><i>Vous avez déjà fait {{numberExercise}} exercices
+                        dans le module {{moduleName}} qui est le
+                        nombre maximum autorisé.</i></h4>
+                <button class="btn btn-primary animate__animated animate__fadeInUp but"
+                    (click)="confirmBeginTestModule()">
+                    <i class="material-icons">playlist_add_check</i> Passer au test
+                </button>
+            </div>
+
         </div>
 
         <div class="col-sm-8" *ngIf="formationContent == true">
@@ -70,8 +80,10 @@
         </div>
 
         <div class="col-sm-4" *ngIf="showTimeout == true">
-            <h6 class=""><i class="fas fa-stopwatch"></i> Temps restants</h6>
-            - {{timer}} S           
+            <div class="chrono">
+                <h6 class=""><i class="fas fa-stopwatch"></i> Temps restants</h6>
+                <p>- {{timer}} S </p>
+            </div>
         </div>
     </div>
 </div>
