@@ -52,7 +52,7 @@ export class EvaluationService {
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.log(['Erreur HTTP', errorMessage]);
+    
     return throwError(errorMessage);
   }
 }

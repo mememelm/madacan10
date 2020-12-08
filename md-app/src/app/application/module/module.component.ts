@@ -33,7 +33,7 @@ export class ModuleComponent implements OnInit {
     this.moduleService.getModuleByFormation(body)
       .subscribe((res: any) => {
         this.listModules = res.data
-        console.log('listModules', this.listModules)
+        
         this.spinner.hide()
       })
   }
@@ -41,7 +41,7 @@ export class ModuleComponent implements OnInit {
   // emit idModule for content
   public emitDataModule(item: any) {
     this.emitModule.emit(item)
-    console.log('emitModule', item)
+    
   }
 
   public route(router) {

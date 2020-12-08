@@ -18,7 +18,7 @@ export class UserService {
   ) { }
 
   // POST FORM DATA 
-  public postDataWithFormData(email, password) {
+  public login(email, password) {
 
     this.spinner.show()
 
@@ -30,16 +30,23 @@ export class UserService {
       .subscribe((res: any) => {
         
         if (res.code == 401) {
-          console.log('ERREUR CONNEXION')
+          
           this.spinner.hide()
         } else {          
-          console.log(res)
+          
           let currentUser = []
           let userData = {
             email: res.data.email,
             firstname: res.data.firstName,
             lastname: res.data.lastName,
-            avatar: res.data.avatar
+            avatar: res.data.avatar,
+            codePostal: res.data.code_postal,
+            country: res.data.country,
+            phone: res.data.phone,
+            dob: res.data.dob,
+            pob: res.data.pob,
+            sexe: res.data.sexe,
+            town: res.data.ville
           }
           currentUser.push(userData)
           localStorage.setItem('currentUser', JSON.stringify(userData))

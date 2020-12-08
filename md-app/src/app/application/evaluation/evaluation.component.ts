@@ -55,7 +55,7 @@ export class EvaluationComponent implements OnInit {
       }
       this.totalPoint = localStorage.getItem('totalPoint')
       let maxPoint: any = localStorage.getItem('totalQuestion')
-      console.log('BASE EVALUATION', [this.totalPoint, maxPoint])
+      
 
       this.pourcentPoint = ((this.totalPoint / maxPoint) * 100).toFixed(2)
     } else {
@@ -73,7 +73,7 @@ export class EvaluationComponent implements OnInit {
     this.evaluationService.getEvaluationByUser(body)
       .subscribe((res: any) => {
         this.listEvaluation = res.data
-        console.log('listEvaluation', this.listEvaluation)
+        
         this.dtTigger.next()
         this.spinner.hide()
       })

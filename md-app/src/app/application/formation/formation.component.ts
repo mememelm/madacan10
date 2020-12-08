@@ -96,7 +96,7 @@ export class FormationComponent implements OnInit, OnChanges {
     localStorage.removeItem('totalQuestion')
 
     this.alertQuestions = this.formationContent = this.alertNumberExercise = this.showTimeout = false
-    console.log('indexQuestions', this.indexQuestions)
+    
     this.formation = localStorage.getItem('currentFormation')
 
     let body = {
@@ -106,7 +106,7 @@ export class FormationComponent implements OnInit, OnChanges {
     this.moduleService.getModuleByFormation(body)
       .subscribe((res: any) => {
         this.listModules = res.data
-        console.log('listModules-formation/exercice/test', this.listModules)
+        
       })
 
     this.getLastEvaluationUser()
@@ -128,27 +128,27 @@ export class FormationComponent implements OnInit, OnChanges {
       .subscribe((res: any) => {
 
         this.listQuestions = res.data
-        console.log('listQuestions', this.listQuestions)
+        
 
         if (this.listQuestions.length == 0) {
-          console.log('AUCUNE QUESION')
+          
           this.alertQuestions = true
           this.showNextButton = false
         } else {
-          console.log('QUESTION EXISTE')
+          
           localStorage.setItem('totalQuestion', this.listQuestions.length)
           this.alertQuestions = false
           this.question = res.data[this.indexQuestions].content
           // this.listAnswers = res.data[this.indexQuestions].questions
 
           let questionChecked = res.data[this.indexQuestions].id
-          console.log('questionChecked', questionChecked)
+          
 
           this.loadAnswers(questionChecked)
 
-          console.log('question', this.question)
-          console.log([this.indexQuestions, this.listQuestions.length])
-          // console.log('listAnswers', [this.listAnswers, this.listAnswers.length])
+          
+          
+          // 
 
           if ((this.indexQuestions + 1) == this.listQuestions.length) {
             this.showNextButton = false
@@ -170,7 +170,7 @@ export class FormationComponent implements OnInit, OnChanges {
     this.answerService.getAnswer(body)
       .subscribe((res: any) => {
         this.listAnswers = res.data
-        console.log('listAnswers', this.listAnswers)
+        
       })
   }
 
@@ -202,7 +202,7 @@ export class FormationComponent implements OnInit, OnChanges {
       // GET NUMBER EXERCISE BY MODULE    
       this.getExerciseNumber(this.userId, localStorage.getItem('moduleId'))
 
-      console.log('module', [this.moduleId, this.moduleName])
+      
     }
   }
 
@@ -218,7 +218,7 @@ export class FormationComponent implements OnInit, OnChanges {
       .subscribe((res: any) => {
 
         let exercise = res.data
-        console.log('exercise', exercise)
+        
 
         // GESTION VUE EXERCICE
         if (exercise.length == 0) {
@@ -231,7 +231,7 @@ export class FormationComponent implements OnInit, OnChanges {
           this.exerciseId = localStorage.setItem('exerciseId', res.data[0].id)
           this.numberExercise = res.data[0].number
           localStorage.setItem('numberExercise', this.numberExercise)
-          console.log('numberExercise', this.numberExercise)
+          
           if (this.numberExercise == 2) {
             this.showBeginButton = this.formationContent = this.showPreviouxButton = false
             this.alertNumberExercise = true
@@ -252,7 +252,7 @@ export class FormationComponent implements OnInit, OnChanges {
     }
     this.evaluationService.getEvaluationByUser(body)
       .subscribe((res: any) => {
-        console.log(res)
+        
         let result = res.data
         for (let i = 0; i < result.length; i++) {
           this.lastUserModules = res.data[i]
@@ -266,7 +266,7 @@ export class FormationComponent implements OnInit, OnChanges {
           data.push(objectData)
           localStorage.setItem('lastUserModules', JSON.stringify(objectData))
         }
-        console.log('lastUserModules', this.lastUserModules)
+        
         
       })
   }
@@ -284,7 +284,7 @@ export class FormationComponent implements OnInit, OnChanges {
       }
       this.exerciseService.updateExerciseByUser(body, localStorage.getItem('exerciseAddedId'))
         .subscribe((res: any) => {
-          console.log(res)
+          
           this.formationContent = false
           this.ngbModal.dismissAll()
         })
@@ -335,7 +335,7 @@ export class FormationComponent implements OnInit, OnChanges {
       }
       this.exerciseService.updateExerciseByUser(body, exercise)
         .subscribe((res: any) => {
-          console.log(res)
+          
         })
 
       this.ngbModal.dismissAll()
@@ -347,7 +347,7 @@ export class FormationComponent implements OnInit, OnChanges {
     // ADD N exercise
     else {
       this.showBeginButton = false
-      console.log('begin exercice module', [this.moduleId, this.moduleName])
+      
 
       let body = {
         user: this.userId,
@@ -356,7 +356,7 @@ export class FormationComponent implements OnInit, OnChanges {
       }
       this.exerciseService.createExercise(body)
         .subscribe((res: any) => {
-          console.log(res)
+          
           localStorage.setItem('exerciseAddedId', res.exercise.id)
         })
 
@@ -396,7 +396,7 @@ export class FormationComponent implements OnInit, OnChanges {
    */
   public testTimeoutIntervalle(duration: number) {
     this.timer = duration * 60
-    console.log('timer', this.timer)
+    
     setInterval(() => {
       this.timer -= 1
       if (this.timer == 0) {
@@ -410,14 +410,14 @@ export class FormationComponent implements OnInit, OnChanges {
     this.selectedAnswer = Object.assign({}, this.selectedAnswer, item)
     this.stateAnswer = this.selectedAnswer.state
     localStorage.setItem('response', 'notEmpty')
-    console.log('selectedAnswer', [this.selectedAnswer, this.stateAnswer])
+    
   }
 
   // ========= slide question ======================================
   // NEXT
   public next() {
     this.indexQuestions += 1
-    console.log('next', this.indexQuestions)
+    
 
     this.getIndexQuestion(this.indexQuestions)
     this.loadQuestion(this.moduleId)
@@ -431,7 +431,7 @@ export class FormationComponent implements OnInit, OnChanges {
   // PREVIOUS
   public previous() {
     this.indexQuestions -= 1
-    console.log('previous', this.indexQuestions)
+    
     this.getIndexQuestion(this.indexQuestions)
     this.loadQuestion(this.moduleId)
   }
@@ -465,7 +465,7 @@ export class FormationComponent implements OnInit, OnChanges {
       let pourcentPoint: any = (totalPoint / maxPoint) * 100
 
       let resultFormation = Number(localStorage.getItem('formationPourcentage'))
-      console.log('RESULTAT EVALUATION', [pourcentPoint, resultFormation])
+      
 
       if (pourcentPoint < resultFormation) {
         localStorage.setItem('resultEvaluation', 'KO')
@@ -474,7 +474,7 @@ export class FormationComponent implements OnInit, OnChanges {
         localStorage.setItem('resultEvaluation', 'OK')
         this.evaluationState = 1
       }
-      console.log('RESULAT EVAL', localStorage.getItem('resultEvaluation'))
+      
 
       let body = {
         user: localStorage.getItem('userId'),
@@ -486,11 +486,11 @@ export class FormationComponent implements OnInit, OnChanges {
         state: this.evaluationState
       }
 
-      console.log('body', body)
+      
 
       this.evaluationService.pushUserEvaluation(body)
         .subscribe((res: any) => {
-          console.log('resultat', res)
+          
           this.router.navigateByUrl('evaluation')
           localStorage.setItem('evaluationState', 'result')
           this.timer = -1

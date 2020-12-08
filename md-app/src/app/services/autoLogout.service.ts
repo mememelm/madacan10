@@ -33,9 +33,9 @@ export class AutoLogoutService {
     }
 
     reset() {
-        //console.log('instant evenement' + Date.now());
+        //
         this.setLastAction(Date.now());
-        //console.log('code evenement', localStorage.getItem(storeKey));
+        //
     }
 
     // setINterval
@@ -50,7 +50,7 @@ export class AutoLogoutService {
         const dateNow = Date.now();
         const timeLeft = this.getLastAction() + minLogout * 60 * 1000;
         const diff = timeLeft - dateNow;
-        // console.log('temps restant', diff)
+        // 
         const isTimeout = diff < 0;
 
         if (isTimeout) {
@@ -62,7 +62,7 @@ export class AutoLogoutService {
 
     // identificaiton event
     storageEvt() {
-        console.log('storage');
+        
         this.val = localStorage.getItem(storeKey);
     }
 

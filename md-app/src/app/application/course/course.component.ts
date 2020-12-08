@@ -56,7 +56,7 @@ export class CourseComponent implements OnInit {
     this.moduleService.getModuleByFormation(body)
       .subscribe((res: any) => {
         this.listModules = res.data
-        console.log('listModules-course', this.listModules)
+        
       })
   }
 
@@ -74,7 +74,7 @@ export class CourseComponent implements OnInit {
     this.supportService.getSupportModule(body)
       .subscribe((res: any) => {
         this.listSupports = res.data
-        console.log('listSupports', this.listSupports)
+        
 
         if (this.listSupports.length == 0) {
           this.alertCourseEmpty = true
@@ -108,7 +108,7 @@ export class CourseComponent implements OnInit {
     this.moduleName = item.name
     this.loadSupportByModule(this.moduleId)
     this.courseContent = true
-    console.log('module', [this.moduleId, this.moduleName])
+    
   }
 
   public toHome() {

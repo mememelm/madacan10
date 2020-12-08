@@ -26,7 +26,6 @@ export class ConnexionComponent implements OnInit {
   }
 
   public connexion() {
-    this.userService.spinner
-    this.userService.postDataWithFormData(this.email, this.password)
+    this.userService.login(this.email, this.password)
   }
 }

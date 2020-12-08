@@ -87,11 +87,20 @@ body {position:relative;height:100%;font-family: 'Poppins', sans-serif;font-size
 @media (max-width: 1199px) {
 
 }
-@media (max-width: 1199px) and (min-width: 992px) {
-
+@media (max-width: 991px) and (min-width: 768px) {
+	.nav-list li {margin: 0 0 20px;}
+	.text-center.logo {text-align: left !important;	}
+	.logo img {width: 123px;}
 }
 @media (max-width: 767px) {
 	.download-list li  {width:100%;}
+	.text-center.logo {padding-top: 67px;}
+	.nav-list li {margin: 0 0 20px;}
+	.top ul {padding:0;	text-align: center;	}
+	.top {left: 0;}
+	.right {display: none;}
+	.left {width: 100%;}
+	table {width: 100%;display: block;overflow: scroll;	}
 }
 @media (max-width: 575px) {
 

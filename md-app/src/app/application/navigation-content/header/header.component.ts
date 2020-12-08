@@ -24,20 +24,20 @@ export class HeaderComponent implements OnInit {
     this.formation = localStorage.getItem('currentFormation')
 
     this.userId = localStorage.getItem('userId')
-    console.log('userId', this.userId)
+    
 
     let body = {
       userId: this.userId
     }
     this.formationService.getFormationByUser(body)
       .subscribe(async (res: any) => {
-        console.log(res)
+        
         for (let i = 0; i < res.data.length; i++) {
           this.formation = res.data[i].name
           localStorage.setItem('formationId', res.data[i].id)
         }
         await this.formation
-        console.log('formation', this.formation)
+        
         localStorage.setItem('currentFormation', this.formation)
       })
 
