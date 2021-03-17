@@ -32,16 +32,14 @@ export class ModuleComponent implements OnInit {
 
     this.moduleService.getModuleByFormation(body)
       .subscribe((res: any) => {
-        this.listModules = res.data
-        
+        this.listModules = res.data        
         this.spinner.hide()
       })
   }
 
   // emit idModule for content
   public emitDataModule(item: any) {
-    this.emitModule.emit(item)
-    
+    this.emitModule.emit(item)    
   }
 
   public route(router) {

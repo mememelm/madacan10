@@ -32,6 +32,7 @@
     "lodash-es": "^4.17.15",
     "ngx-doc-viewer": "^1.4.0",
     "ngx-spinner": "^10.0.1",
+    "ngx-toastr": "^13.2.1",
     "rxjs": "^6.6.3",
     "screenfull": "^5.0.2",
     "tslib": "^2.0.0",

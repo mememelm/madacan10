@@ -25,9 +25,8 @@ export class ModuleService {
   // GET Formation user
   public getModuleByFormation(data): Observable<Module> {
     return this.httpClient
-      .post<Module>(
+      .get<Module>(
         this.api + 'modules/get',
-        JSON.stringify(data),
         this.httpOptions
       )
       .pipe(retry(1), catchError(this.handleError));

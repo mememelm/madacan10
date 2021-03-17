@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from '../../environments/environment'
 import { Router } from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,13 @@ export class UserService {
   constructor(
     private httpClient: HttpClient,
     private router: Router,
-    public spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) { }
 
   // POST FORM DATA 
   public login(email, password) {
-
+    let alert = true
     this.spinner.show()
 
     const formData = new FormData()
@@ -28,12 +30,12 @@ export class UserService {
 
     this.httpClient.post<any>(this.api + 'login_check', formData)
       .subscribe((res: any) => {
-        
         if (res.code == 401) {
-          
           this.spinner.hide()
-        } else {          
-          
+          this.toastr.error('Email ou mot de passe incorrect.')
+        }
+        if (res.data) {
+          alert = false
           let currentUser = []
           let userData = {
             email: res.data.email,
@@ -56,5 +58,12 @@ export class UserService {
           this.spinner.hide()
         }
       })
+
+    setTimeout(() => {
+      this.spinner.hide()
+      if (alert == true) {
+        this.toastr.error('Email ou mot de passe incorrect.')
+      }
+    }, 6000)
   }
 }

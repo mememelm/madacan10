@@ -103,13 +103,13 @@ export class FormationComponent implements OnInit, OnChanges {
       formationId: localStorage.getItem('formationId')
     }
 
-    this.moduleService.getModuleByFormation(body)
-      .subscribe((res: any) => {
-        this.listModules = res.data
+    // this.moduleService.getModuleByFormation(body)
+    //   .subscribe((res: any) => {
+    //     this.listModules = res.data
         
-      })
+    //   })
 
-    this.getLastEvaluationUser()
+    // this.getLastEvaluationUser()
   }
 
   ngOnChanges(): void {

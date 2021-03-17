@@ -31,6 +31,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDocViewerModule } from "ngx-doc-viewer";
 import { DataTablesModule } from 'angular-datatables';
+import { ToastrModule } from "ngx-toastr";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { DataTablesModule } from 'angular-datatables';
     NgxSpinnerModule,
     NgbModule,
     NgxDocViewerModule,
-    DataTablesModule
+    DataTablesModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     {

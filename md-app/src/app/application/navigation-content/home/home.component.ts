@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormationService } from '../../../services/formation.service';
-import * as screenfull from 'screenfull';
 
 @Component({
   selector: 'app-home',
@@ -20,14 +19,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // if (screenfull.isEnabled) {
-    //   screenfull.request()
-    // }
-
     this.formation = localStorage.getItem('currentFormation')
 
-    this.userId = localStorage.getItem('userId')
-    
+    this.userId = localStorage.getItem('userId')    
 
     let body = {
       userId: this.userId
