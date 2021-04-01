@@ -30,7 +30,17 @@ export class FormationService {
         JSON.stringify(data),
         this.httpOptions
       )
-      .pipe(retry(1), catchError(this.handleError));
+      .pipe(retry(1), catchError(this.handleError))
+  }
+
+  /**
+   * getFormationByModule
+   */
+  public getFormationDocumentByModule():Observable<any> {
+    return this.httpClient.get<any>(
+      this.api + 'formations/document',
+      this.httpOptions
+    ).pipe(retry(1), catchError(this.handleError))
   }
 
   // Error handling

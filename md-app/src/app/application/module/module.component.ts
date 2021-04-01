@@ -13,7 +13,7 @@ export class ModuleComponent implements OnInit {
 
   @Input() public listModules: any = []
 
-  @Output() public emitModule: EventEmitter<any> = new EventEmitter
+  @Output() public emitModule: EventEmitter<any> = new EventEmitter()
 
   public dtTiggers = new Subject()
 
@@ -25,21 +25,11 @@ export class ModuleComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.show()
-
-    let body = {
-      formationId: localStorage.getItem('formationId')
-    }
-
-    this.moduleService.getModuleByFormation(body)
-      .subscribe((res: any) => {
-        this.listModules = res.data        
-        this.spinner.hide()
-      })
   }
 
   // emit idModule for content
   public emitDataModule(item: any) {
-    this.emitModule.emit(item)    
+    this.emitModule.emit(item)
   }
 
   public route(router) {

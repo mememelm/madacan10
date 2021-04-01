@@ -3,8 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Exercise } from '../constant/exercise';
 import { environment } from '../../environments/environment';
 import { retry, catchError } from 'rxjs/operators';
-import { identity, Observable, throwError } from 'rxjs';
-import { identifierName } from '@angular/compiler';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

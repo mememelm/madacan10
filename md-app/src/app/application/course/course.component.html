@@ -19,52 +19,25 @@
         <div class="col-sm-8" *ngIf="courseContent == true">
             <h3><i class="material-icons">chevron_right</i> Module <b>{{moduleName}}</b></h3>
             <ul class="text-center download-list">
-                <li *ngFor="let item of listSupports, let i = index">
+                <li *ngFor="let item of listDocumentByModule">
                     <a class="cursor-pt">
                         <div class="cont-img">
                             <!-- IMAGE -->
-                            <img *ngIf="filePdf[i] == true" src="../../../assets/images/pdf.jpg"
-                                (click)="openViewModal(pdf)">
-                            <img *ngIf="filePpt[i] == true" src="../../../assets/images/ppt.jpg">
-                            <img *ngIf="fileVideo[i] == true" src="../../../assets//images/exercise.jpg">
+                            <img *ngIf="item.type == 'pdf'" src="../../../assets/images/pdf.jpg"
+                                (click)="openViewModal(pdf, item.file)">
+                            <img *ngIf="item.type == 'ptx'" src="../../../assets/images/ppt.jpg">
+                            <img *ngIf="item.type !== 'pdf' && item.type !== 'ptx'" src="../../../assets//images/exercise.jpg">
 
-                            <!-- ICONE -->
-                            <!-- <div *ngIf="filePdf[i] || filePpt[i] == true" class="cont-ico">
-                                <i class="material-icons">download</i>
-                            </div> -->
-                            <div *ngIf="filePpt[i] == true" class="cont-ico">
-                                <i class="material-icons" (click)="openViewModal(msOffice)">download</i>
+                            <div *ngIf="item.type == 'ptx'" class="cont-ico">
+                                <i class="material-icons" (click)="openViewModal(msOffice, item.file)">download</i>
                             </div>
-                            <div *ngIf="fileVideo[i] == true" class="cont-ico">
-                                <i class="material-icons" (click)="openViewModal(video)">play_circle_filled</i>
+                            <div *ngIf="item.type !== 'pdf' && item.type !== 'ptx'" class="cont-ico">
+                                <i class="material-icons" (click)="openViewModal(video, item.file)">play_circle_filled</i>
                             </div>
                         </div>
                         <div class="cont-txt">
-                            <h4>{{fileName[i]}}</h4>
-                        </div>
-
-                        <!-- VIEW PDF -->
-                        <ng-template #pdf>
-                            <div class="modal-body modal-connect">
-                                <!-- <pdf-viewer [src]="pdfSrc[i]" [original-size]="false"></pdf-viewer> -->
-                                <ngx-doc-viewer [url]="pdfSrc[i]" viewer="google" style="width:100%;height:80vh;"></ngx-doc-viewer>
-                            </div>
-                        </ng-template>
-
-                        <!-- VIEW VIDEO -->
-                        <ng-template #video>
-                            <div class="modal-body modal-connect d-flex justify-content-center">
-                                <video src="{{videoSrc[i]}}" autoplay="true" style="width: 80%;" controls>
-                                </video>
-                            </div>                            
-                        </ng-template>
-
-                        <!-- VIEW DICS -->
-                        <ng-template #msOffice>
-                            <div class="modal-body modal-connect">
-                                <ngx-doc-viewer [url]="pptSrc[i]" viewer="google" style="width:100%;height:60vh;"></ngx-doc-viewer>
-                            </div>                            
-                        </ng-template>                    
+                            <h4>{{item.fileName}}</h4>
+                        </div>                                      
 
                     </a>
                 </li>
@@ -75,6 +48,29 @@
         </div>
     </div>
 </div>
+
+<!-- VIEW PDF -->
+<ng-template #pdf>
+    <div class="modal-body modal-connect">
+        <ngx-doc-viewer [url]="file" viewer="google" style="width:100%;height:80vh;"></ngx-doc-viewer>
+    </div>
+</ng-template>
+
+<!-- VIEW VIDEO -->
+<ng-template #video>
+    <div class="modal-body modal-connect d-flex justify-content-center">
+        <video src="{{file}}" autoplay="true" style="width: 80%;" controls>
+        </video>
+    </div>                            
+</ng-template>
+
+<!-- VIEW DICS -->
+<ng-template #msOffice>
+    <div class="modal-body modal-connect">
+        <ngx-doc-viewer [url]="file" viewer="google" style="width:100%;height:60vh;"></ngx-doc-viewer>
+    </div>                            
+</ng-template>      
+
 <p class="text-center copyright">
     © Copyright 2020 Madacan
 </p>

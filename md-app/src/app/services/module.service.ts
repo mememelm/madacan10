@@ -23,7 +23,7 @@ export class ModuleService {
   }
 
   // GET Formation user
-  public getModuleByFormation(data): Observable<Module> {
+  public getModuleByFormation(): Observable<Module> {
     return this.httpClient
       .get<Module>(
         this.api + 'modules/get',
